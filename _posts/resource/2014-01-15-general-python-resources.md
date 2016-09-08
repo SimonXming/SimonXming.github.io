@@ -4,7 +4,7 @@ title: Python 常用资源
 category: 资源
 tags: Python
 keywords: Python
-description: 
+description:
 ---
 
 ## 常用代码
@@ -36,3 +36,67 @@ description:
 ### 之后的包从绝对位置导入
     from __future__ import absolute_import
 
+### 3.5.0 Exceptions
+    BaseException
+     +-- SystemExit
+     +-- KeyboardInterrupt
+     +-- GeneratorExit
+     +-- Exception
+          +-- StopIteration
+          +-- StopAsyncIteration
+          +-- ArithmeticError
+          |    +-- FloatingPointError
+          |    +-- OverflowError
+          |    +-- ZeroDivisionError
+          +-- AssertionError
+          +-- AttributeError
+          +-- BufferError
+          +-- EOFError
+          +-- ImportError
+          +-- LookupError
+          |    +-- IndexError
+          |    +-- KeyError
+          +-- MemoryError
+          +-- NameError
+          |    +-- UnboundLocalError
+          +-- OSError
+          |    +-- BlockingIOError
+          |    +-- ChildProcessError
+          |    +-- ConnectionError
+          |    |    +-- BrokenPipeError
+          |    |    +-- ConnectionAbortedError
+          |    |    +-- ConnectionRefusedError
+          |    |    +-- ConnectionResetError
+          |    +-- FileExistsError
+          |    +-- FileNotFoundError
+          |    +-- InterruptedError
+          |    +-- IsADirectoryError
+          |    +-- NotADirectoryError
+          |    +-- PermissionError
+          |    +-- ProcessLookupError
+          |    +-- TimeoutError
+          +-- ReferenceError
+          +-- RuntimeError
+          |    +-- NotImplementedError
+          |    +-- RecursionError
+          +-- SyntaxError
+          |    +-- IndentationError
+          |         +-- TabError
+          +-- SystemError
+          +-- TypeError
+          +-- ValueError
+          |    +-- UnicodeError
+          |         +-- UnicodeDecodeError
+          |         +-- UnicodeEncodeError
+          |         +-- UnicodeTranslateError
+          +-- Warning
+               +-- DeprecationWarning
+               +-- PendingDeprecationWarning
+               +-- RuntimeWarning
+               +-- SyntaxWarning
+               +-- UserWarning
+               +-- FutureWarning
+               +-- ImportWarning
+               +-- UnicodeWarning
+               +-- BytesWarning
+               +-- ResourceWarning
