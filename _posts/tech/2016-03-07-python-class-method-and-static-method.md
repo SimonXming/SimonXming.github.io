@@ -47,6 +47,7 @@ AttributeError: class_property
 类属性与类实例没有任何关系
 类属性其实就是其它语言中的静态变量(变量前加static)
 为什么要有类属性, 一句话命名空间
+
 ### 类方法和静态方法
 ```
 >>> class TestMethod(object):
@@ -87,7 +88,9 @@ static_method(Hello)
 >>> TestMethod.static_method("Hello")
 static_method(Hello)
 ```
+
 可以看出类方法中cls代表的是类本身, 如果将类方法中的访问类属性的cls去掉, 则会报出NameError的错误
+
 ```
 >>> class TestMethod(object):
 ...     class_property = "class property"
@@ -102,6 +105,7 @@ Traceback (most recent call last):
   File "<stdin>", line 5, in class_method
 NameError: global name 'class_property' is not defined
 ```
+
 类方法是为了访问类属性更加方便
 类方法和静态方法可以通过类和实例来访问,效果是相同的
 静态方法跟普通函数没有什么区别
