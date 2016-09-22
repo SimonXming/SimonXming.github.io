@@ -28,12 +28,16 @@ Paxos就是用于解决一致性问题的算法，有多个节点就会存在节
 
 这样一个场景:
 * 有Client一个、Proposer三个、Acceptor三个、Learner一个；
+
 * Client向prepeare提交一个data请求入库，Proposer收到Client请求后生成一个序号1向三个Acceptor（最少两个）发送序号1请求提交议案;
+
 * 假如三个Acceptor收到Proposer申请提交的序号为1的请求，且三个Acceptor都是初次接受到请求，然后向Proposer回复Promise允许提交议案，Proposer收到三个Acceptor（满足过半数原则）的Promise回复后接着向三个Accptor正式提交议案（序号1，value为data）
+
 * 三个Accptor都收到议案（序号1，value为data）请求期间没有收到其他请求，Acceptor接受议案，回复Proposer已接受议案
+
 * 然后向Learner提交议案，Proposer收到回复后回复给Client成功处理请求，Learner收到议案后开始学习议案（存储data）；
 
-　　Paxos中存在三种角色Proposer（提议者）、Acceptor（决策者）、Learner（议案学习者），整个过程（一个实例或称一个事务或一个Round）分为两个阶段；
+Paxos中存在三种角色Proposer（提议者）、Acceptor（决策者）、Learner（议案学习者），整个过程（一个实例或称一个事务或一个Round）分为两个阶段；
 
 ##### phase1（准备阶段）
 1. Proposer向超过半数（n/2+1）Acceptor发起prepare消息(发送编号)
