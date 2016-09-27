@@ -460,15 +460,15 @@ description:
 - 数组声明带有长度信息且长度固定，数组是值类型默认零值不是`nil`，传递参数时会进行复制。  
   声明定义数组时中括号`[ ]`在类型名称之前，赋值引用元素时中括号`[ ]`在数组变量名之后。
 
-    ```go
-    var a [3]int = [3]int{0, 1, 2}                         // a = [0 1 2]
-    var b [3]int = [3]int{}                                // b = [0 0 0]
-    var c [3]int
-    c = [3]int{}
-    c = [3]int{0,0,0}                                      // c = [0 0 0]
-    d := [3]int{}                                          // d = [0 0 0]
-    fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))  // [3]int    [3]int{0, 0, 0}    3    3
-    ```
+```go
+  var a [3]int = [3]int{0, 1, 2}                         // a = [0 1 2]
+  var b [3]int = [3]int{}                                // b = [0 0 0]
+  var c [3]int
+  c = [3]int{}
+  c = [3]int{0,0,0}                                      // c = [0 0 0]
+  d := [3]int{}                                          // d = [0 0 0]
+  fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))  // [3]int    [3]int{0, 0, 0}    3    3
+```
 
   使用`...`自动计算数组的长度
 
