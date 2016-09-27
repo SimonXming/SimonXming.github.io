@@ -1,6 +1,6 @@
 ---
 layout: post
-title: golang 语法详解笔记
+title: golang语法详解笔记
 category: 技术
 tags: golang 基础
 keywords: go
