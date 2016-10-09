@@ -67,28 +67,28 @@ description:
   包名推荐与源文件所在的目录名称保持一致  
   每个目录中只能定义一个package
 
-    ```go
+```go
     package cxy     // 声明一个名为“cxy”的包
 
     package 我的包   // 声明一个名为“我的包”的包
 
     package main    // main包, 程序启动执行的入口包
-    ```
+```
 
   错误的包声明
-    ```go
+```go
     package "mypkg" // 错误
 
     package a/b/c   // 错误
 
     pakcage a.b.c   // 错误
-    ```
+```
 
 ### <span id="包的导入-import">**包的导入 Import**</span>
 
 - 导入包路径是对应包在`$GOROOT/pkg/$GOOS_$GOARCH/`、`$GOPATH/pkg/$GOOS_$GOARCH/`或`当前路径`中的相对路径
 
-    ```go
+```go
     // 导入$GOROOT/$GOOS_$GOARCH/中的相对路径包(官方标准库)
     import "fmt"
     import "math/rand"
@@ -96,7 +96,7 @@ description:
     // 导入$GOPATH/$GOOS_$GOARCH/中的相对路径包
     import "github.com/user/project/pkg"
     import "code.google.com/p/project/pkg"
-    ```
+```
 
   导入当前包的相对路径包  
   例如有Go目录如下：  
@@ -109,34 +109,34 @@ description:
   　└─x1  
   　　└─y2
 
-    ```go
+```go
     import "./y0/z0"    // x0包中导入子包 z0包
     import "../y0/z0"   // y1包中导入子包 z0包
     import "x0/y1/z1"   // y2包中导入 z1包
-    ```
+```
 
   错误的导入包路径
 
-    ```go
+```go
     import a/b/c        // 错误
     import "a.b.c"      // 错误
     import a.b.c        // 错误
-    ```
+```
 
 - 用圆括号组合导入包路径
 
-    ```go
+```go
     import ("fmt"; "math")
 
     import (
         "fmt"
         "math"
     )
-    ```
+```
 
 - 导入包可以定义别名，防止同名称的包冲突
 
-    ```go
+```go
     import (
         "a/b/c"
 
@@ -146,61 +146,61 @@ description:
 
         m "math"       // 将导入的包math定义别名为 m
     )
-    ```
+```
 
 - 引用包名是导入包路径的最后一个目录中定义的唯一包的名称  
   定义的包名与目录同名时，直接引用即可
 
-    ```go
+```go
     // 引用普通名称的导入包
     c.hello()
 
     // 引用定义别名的包
     格式化.Println(m.Pi)
-    ```
+```
 
   定义的包名与所在目录名称不同时，导入包路径仍为目录所在路径，引用包名为定义的包名称
 
-    ```go
+```go
     // 源文件路径: $GOPATH/src/proj/my-util/util.go
     // 定义包名: util
     package util
-    ```
-    ```go
+```
+```go
     // 导入util包路径
     import "proj/my-util"
 
     // 引用util包
     util.doSomething()
-    ```
+```
 
 - 静态导入，在导入的包路径之前增加一个小数点`.`
 
-    ```go
+```go
     // 类似C中的include 或Java中的import static
     import . "fmt"
 
     // 然后像使用本包元素一样使用fmt包中可见的元素，不需要通过包名引用
     Println("no need package name")
-    ```
+```
 
 - 导入包但不直接使用该包，在导入的包路径之前增加一个下划线`_`
 
-    ```go
+```go
     // 如果当前go源文件中未引用过log包，将会导致编译错误
     import "log"    // 错误
     import . "log"  // 静态导入未使用同样报错
 
     // 在包名前面增加下划线表示导入包但是不直接使用它，被导入的包中的init函数会在导入的时候执行
     import _ "github.com/go-sql-driver/mysql"
-    ```
+```
 
 ### <span id="包内元素的可见性-accessability">**包内元素的可见性 Accessability**</span>
 
 - 名称首字符为[Unicode包含的大写字母](http://www.fileformat.info/info/unicode/category/Lu/list.htm)的元素是被导出的，对外部包是可见的  
   首字为非大写字母的元素只对本包可见(同包跨源文件可以访问，子包不能访问)
 
-    ```go
+```go
     var In int                                      // In is exported
     var in byte                                     // in is unexported
     var ȸȹ string                                   // ȸȹ is unexported
@@ -212,7 +212,7 @@ description:
     func įnner() {...}                               // įnner is unexported
     func (me *Integer) ⱱalueOf(s string) int {...}   // ⱱalueOf is unexported
     func (i ブーリアン) Ȿtring() string {...}         // Ȿtring is exported
-    ```
+```
 
 - internal包（内部包）`Go 1.4`  
   internal包及其子包中的导出元素只能被与internal同父包的其他包访问  
@@ -233,17 +233,17 @@ description:
 - 规范导入包路径Canonical import paths`Go 1.4`  
   包声明语句后面添加标记注释，用于标识这个包的规范导入路径。
 
-    ```go
+```go
     package pdf // import "rsc.io/pdf"
-    ```
+```
 
   如果使用此包的代码的导入的路径不是规范路径，go命令会拒绝编译。  
   例如有 [rsc.io/pdf]() 的一个fork路径 [github.com/rsc/pdf]()  
   如下程序代码导入路径时使用了非规范的路径则会被go拒绝编译
 
-    ```go
+```go
     import "github.com/rsc/pdf"
-    ```
+```
 
 ## <span id="数据类型-data-type">**数据类型 Data Type**</span>
 
@@ -273,25 +273,25 @@ description:
 - 变量声明, 使用`var`关键字  
   Go中只能使用`var` **声明**变量，无需显式初始化值
 
-    ```go
+```go
     var i int       // i = 0
 
     var s string    // s = ""    (Go中的string是值类型，默认零值是空串 "" 或 ``，不存在nil(null)值)
 
     var e error     // e = nil, error是Go的内建接口类型。
-    ```
+```
 
   关键字的顺序错误或缺少都是编译错误的
 
-    ```go
+```go
     var int a       // 编译错误
     a int           // 编译错误
     int a           // 编译错误
-    ```
+```
 
 - `var` 语句可以声明一个变量列表，类型在变量名之后
 
-    ```go
+```go
     var a,b,c int   // a = 0, b = 0, c = 0
     var (
         a int       // a = 0
@@ -302,38 +302,38 @@ description:
         a,b,c int
         d string
     )
-    ```
+```
 
 - 变量定义时初始化赋值，每个变量对应一个值
 
-    ```go
+```go
     var a int = 0
     var a, b int = 0, 1
-    ```
+```
 
 - 变量定义并初始化时可以省略类型，Go自动根据初始值推导变量的类型
 
-    ```go
+```go
     var a = 'A'         // a int32
     var a,b = 0, "B"    // a int, b string
-    ```
+```
 
 - 使用组合符号`:=`定义并初始化变量，根据符号右边表达式的值的类型声明变量并初始化它的值  
   `:=` 不能在函数外使用，函数外的每个语法块都必须以关键字开始
 
-    ```go
+```go
     a := 3                     // a int
     a, b, c := 8, '呴', true   // a int, b int32, c bool
     c := `formatted
      string`                   // c string
     c := 1 + 2i                // c complex128
-    ```
+```
 
 ### <span id="常量-constant">**常量 Constant**</span>
 
 - 常量可以是字符、字符串、布尔或数值类型的值，数值常量是高精度的值
 
-    ```go
+```go
     const x int = 3
     const y,z int = 1,2
     const (
@@ -344,22 +344,22 @@ description:
         e float32 = 5.1
         f complex64 = 6 + 6i
     )
-    ```
+```
 
 - 根据常量值自动推导类型
 
-    ```go
+```go
     const a = 0        // a int
     const (
         b = 2.3        // b float64
         c = true       // c bool
     )
-    ```
+```
 
 - 常量组内定义时复用表达式  
   常量组内定义的常量只有名称时，其值会根据上一次最后出现的常量表达式计算相同的类型与值
 
-    ```go
+```go
     const (
         a = 3               // a = 3
         b                   // b = 3
@@ -370,22 +370,22 @@ description:
         g,h,i = 7,8,9       // 复用表达式要一一对应
         x,y,z               // x = 7, y = 8, z = 9
     )
-    ```
+```
 
 - 自动递增枚举常量 `iota`  
   iota的枚举值可以赋值给数值兼容类型  
   每个常量单独声明时，`iota`不会自动递增
 
-    ```go
+```go
     const a int = iota        // a = 0
     const b int = iota        // b = 0
     const c byte = iota       // c = 0
     const d uint64 = iota     // d = 0
-    ```
+```
 
 - 常量组合声明时，`iota`每次引用会逐步自增，初始值为0，步进值为1
 
-    ```go
+```go
     const (
         a uint8 = iota        // a = 0
         b int16 = iota        // b = 1
@@ -393,11 +393,11 @@ description:
         d float64 = iota      // d = 3
         e uintptr = iota      // e = 4
     )
-    ```
+```
 
 - 即使`iota`不是在常量组内第一个开始引用，也会按组内常量数量递增
 
-    ```go
+```go
     const (
         a = "A"
         b = 'B'
@@ -405,21 +405,21 @@ description:
         d = "D"
         e = iota    // e = 4
     )
-    ```
+```
 
 - 枚举的常量都为同一类型时，可以使用简单序列格式(组内复用表达式).
 
-    ```go
+```go
     const (
         a = iota     // a int32 = 0
         b            // b int32 = 1
         c            // c int32 = 2
     )
-    ```
+```
 
 - 枚举序列中的未指定类型的常量会跟随序列前面最后一次出现类型定义的类型
 
-    ```go
+```go
     const (
         a byte = iota    // a uint8 = 0
         b                // b uint8 = 1
@@ -428,11 +428,11 @@ description:
         e                // e int32 = 4
         f                // f int32 = 5
     )
-    ```
+```
 
 - `iota`自增值只在一个常量定义组合中有效，跳出常量组合定义后`iota`初始值归0
 
-    ```go
+```go
     const (
         a = iota     // a int32 = 0
         b            // b int32 = 1
@@ -442,25 +442,25 @@ description:
         e = iota     // e int32 = 0    (iota重新初始化并自增)
         f            // f int32 = 1
     )
-    ```
+```
 
 - 定制`iota`序列初始值与步进值 (通过组合内复用表达式实现)
 
-    ```go
+```go
     const (
         a = (iota + 2) * 3    // a int32 = 6    (a=(0+2)*3) 初始值为6,步进值为3
         b                     // b int32 = 9    (b=(1+2)*3)
         c                     // c int32 = 12    (c=(2+2)*3)
         d                     // d int32 = 15    (d=(3+2)*3)
     )
-    ```
+```
 
 ### <span id="数组-array">**数组 Array**</span>
 
 - 数组声明带有长度信息且长度固定，数组是值类型默认零值不是`nil`，传递参数时会进行复制。  
   声明定义数组时中括号`[ ]`在类型名称之前，赋值引用元素时中括号`[ ]`在数组变量名之后。
 
-    ```go
+```go
     var a [3]int = [3]int{0, 1, 2}                         // a = [0 1 2]
     var b [3]int = [3]int{}                                // b = [0 0 0]
     var c [3]int
@@ -468,30 +468,30 @@ description:
     c = [3]int{0,0,0}                                      // c = [0 0 0]
     d := [3]int{}                                          // d = [0 0 0]
     fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))  // [3]int    [3]int{0, 0, 0}    3    3
-    ```
+```
 
   使用`...`自动计算数组的长度
-    ```go
+```go
     var a = [...]int{0, 1, 2}
 
     // 多维数组只能自动计算最外围数组长度
 
     // 通过下标访问数组元素
     println(y[1][1][0])                                    // 6
-    ```
+```
 
   初始化指定索引的数组元素，未指定初始化的元素保持默认零值
 
-    ```go
+```go
     var a = [3]int{2:3}
     var b = [...]string{2:"c", 3:"d"}
-    ```
+```
 
 ### <span id="切片-slice">**切片 Slice**</span>
 - slice 切片是对一个数组上的连续一段的引用，并且同时包含了长度和容量信息  
   因为是引用类型，所以未初始化时的默认零值是`nil`，长度与容量都是0
 
-    ```go
+```go
     var a []int
     fmt.Printf("%T\t%#v\t%d\t%d\n", a, a, len(a), cap(a))    // []int    []int(nil)    0    0
 
@@ -500,11 +500,11 @@ description:
     fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))    // []int    []int{0, 1, 2}    3    3
 
     var e = []string{2:"c", 3:"d"}
-    ```
+```
 
   使用内置函数make初始化slice，第一参数是slice类型，第二参数是长度，第三参数是容量(省略时与长度相同)
 
-    ```go
+```go
     var b = make([]int, 0)
     fmt.Printf("%T\t%#v\t%d\t%d\n", b, b, len(b), cap(b))    // []int    []int{}    0    0
 
@@ -513,7 +513,7 @@ description:
 
     var a = new([]int)
     fmt.Printf("%T\t%#v\t%d\t%d\n", a, a, len(*a), cap(*a))  // *[]int    &[]int(nil)    0    0
-    ```
+```
 
 - 基于slice或数组重新切片，创建一个新的 slice 值指向相同的数组  
   重新切片支持两种格式：  
@@ -526,14 +526,14 @@ description:
   beginIndex的值可省略，默认为0  
   endIndex 的值可省略，默认为len(slice)
 
-    ```go
+```go
     s := []int{0, 1, 2, 3, 4}
     a := s[1:3]            // a: [1 2],  len: 2,  cap:  4
     b := s[:4]             // b: [0 1 2 3],  len: 4,  cap:  5
     c := s[1:]             // c: [1 2 3 4],  len: 4,  cap:  4
     d := s[1:1]            // d: [],  len: 0,  cap:  4
     e := s[:]              // e: [0 1 2 3 4],  len: 5,  cap:  5
-    ```
+```
 
   3个参数 `slice[beginIndex:endIndex:capIndex]`  
   需要满足条件：0 <= beginIndex <= endIndex <= capIndex <= cap(slice)  
@@ -541,15 +541,15 @@ description:
   新slice的容量：`capacity=(capIndex - beginIndex)`  
   beginIndex的值可省略，默认为0  
 
-    ```go
+```go
     s := make([]int, 5, 10)
     a := s[9:10:10]        // a: [0],  len: 1,  cap:  1
     b := s[:3:5]           // b: [0 0 0],  len: 3,  cap:  5
-    ```
+```
 
 - 向slice中增加/修改元素
 
-    ```go
+```go
     s := []string{}
     s = append(s, "a")              // 添加一个元素
     s = append(s, "b", "c", "d")    // 添加一列元素
@@ -559,12 +559,12 @@ description:
 
     s[0] = "A"                      // 修改切片s的第一个元素
     s[len(s)-1] = "G"               // 修改切片s的最后一个元素
-    ```
+```
 
 - 删除slice中指定的元素  
   因为slice引用指向底层数组，数组的长度不变元素是不能删除的，所以删除的原理就是排除待删除元素后用其他元素重新构造一个数组
 
-    ```go
+```go
     func deleteByAppend() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
@@ -579,13 +579,13 @@ description:
         copy(s[i:], s[i+1:])
         s = s[:len(s)-1]
     }
-    ```
+```
 
 ### <span id="字典映射-map">**字典/映射 Map**</span>
 
 - map是引用类型，使用内置函数 `make`进行初始化，未初始化的map零值为 `nil`长度为0，并且不能赋值元素
 
-    ```go
+```go
     var m map[int]int
     m[0] = 0                              // × runtime error: assignment to entry in nil map
     fmt.Printf("type: %T\n", m)           // map[int]int
@@ -593,11 +593,11 @@ description:
     fmt.Printf("value: %v\n", m)          // map[]
     fmt.Println("is nil: ", nil == m)     // true
     fmt.Println("length: ", len(m))       // 0，if m is nil, len(m) is zero.
-    ```
+```
 
   使用内置函数make初始化map
 
-    ```go
+```go
     var m map[int]int = make(map[int]int)
     m[0] = 0                              // 插入或修改元素
     fmt.Printf("type: %T\n", m)           // map[int]int
@@ -605,11 +605,11 @@ description:
     fmt.Printf("value: %v\n", m)          // map[0:0]
     fmt.Println("is nil: ", nil == m)     // false
     fmt.Println("length: ", len(m))       // 1
-    ```
+```
 
   直接赋值初始化map
 
-    ```go
+```go
     m := map[int]int{
     0:0,
     1:1,                                  // 最后的逗号是必须的
@@ -618,11 +618,11 @@ description:
     "a":S{0,1},
     "b":{2,3},                            // 类型名称可省略
     }
-    ```
+```
 
   map的使用：读取、添加、修改、删除元素
 
-    ```go
+```go
     m[0] = 3                              // 修改m中key为0的值为3
     m[4] = 8                              // 添加到m中key为4值为8
 
@@ -630,103 +630,103 @@ description:
     b, ok := n["c"]                       // 取值, 并通过ok(bool)判断key对应的元素是否存在.
 
     delete(n, "a")                        // 使用内置函数delete删除key为”a“对应的元素.
-    ```
+```
 
 ### <span id="结构体-struct">**结构体 Struct**</span>
 
 - 结构体类型`struct`是一个字段的集合
 
-    ```go
+```go
     type S struct {
         A int
         B, c string
     }
-    ```
+```
 
 - 结构体初始化通过结构体字段的值作为列表来新分配一个结构体。
 
-    ```go
+```go
     var s S = S{0, "1", "2"}
-    ```
+```
 
 - 使用 Name: 语法可以仅列出部分字段(字段名的顺序无关)
 
-    ```go
-    var s S = S{B: "1", A: 0}
-    ```
+```go
+var s S = S{B: "1", A: 0}
+```
 
 - 结构体是值类型，传递时会复制值，其默认零值不是`nil`
 
-    ```go
-    var a S
-    var b = S{}
-    fmt.Println(a == b)    // true
-    ```
+```go
+var a S
+var b = S{}
+fmt.Println(a == b)    // true
+```
 
 - 结构体组合  
   将一个`命名类型`作为匿名字段嵌入一个结构体  
   嵌入匿名字段支持命名类型、命名类型的指针和接口类型
 
-    ```go
-    package main
+```go
+package main
 
-    type (
-        A struct {
-            v int
-        }
-
-        // 定义结构体B，嵌入结构体A作为匿名字段
-        B struct {
-            A
-        }
-
-        // 定义结构体C，嵌入结构体A的指针作为匿名字段
-        C struct {
-            *A
-        }
-    )
-
-    func (a *A) setV(v int) {
-        a.v = v
+type (
+    A struct {
+        v int
     }
 
-    func (a A) getV() int {
-        return a.v
+    // 定义结构体B，嵌入结构体A作为匿名字段
+    B struct {
+        A
     }
 
-    func (b B) getV() string {
-        return "B"
+    // 定义结构体C，嵌入结构体A的指针作为匿名字段
+    C struct {
+        *A
     }
+)
 
-    func (c *C) getV() bool {
-        return true
-    }
+func (a *A) setV(v int) {
+    a.v = v
+}
 
-    func main() {
-        a := A{}
-        b := B{}    // 初始化结构体B，其内匿名字段A默认零值是A{}
-        c := C{&A{}}    // 初始化结构体C，其内匿名指针字段*A默认零值是nil，需要初始化赋值
+func (a A) getV() int {
+    return a.v
+}
 
-        println(a.v)
+func (b B) getV() string {
+    return "B"
+}
 
-        // 结构体A嵌入B，A内字段自动提升到B
-        println(b.v)
+func (c *C) getV() bool {
+    return true
+}
 
-        // 结构体指针*A嵌入C，*A对应结构体内字段自动提升到C
-        println(c.v)
+func main() {
+    a := A{}
+    b := B{}    // 初始化结构体B，其内匿名字段A默认零值是A{}
+    c := C{&A{}}    // 初始化结构体C，其内匿名指针字段*A默认零值是nil，需要初始化赋值
 
-        a.setV(3)
-        b.setV(5)
-        c.setV(7)
-        println(a.getV(), b.A.getV(), c.A.getV())
-        println(a.getV(), b.getV(), c.getV())
-    }
-    ```
+    println(a.v)
+
+    // 结构体A嵌入B，A内字段自动提升到B
+    println(b.v)
+
+    // 结构体指针*A嵌入C，*A对应结构体内字段自动提升到C
+    println(c.v)
+
+    a.setV(3)
+    b.setV(5)
+    c.setV(7)
+    println(a.getV(), b.A.getV(), c.A.getV())
+    println(a.getV(), b.getV(), c.getV())
+}
+```
 
 - 匿名结构体  
   匿名结构体声明时省略了`type`关键字，并且没有名称
 
-    ```go
+```go
     package main
 
     import "fmt"
@@ -789,13 +789,13 @@ description:
     func printc(s struct {u int; v bool }) {
         fmt.Printf("c: %#v\n", s)    // c: struct { u int; v bool }{u:0, v:false}
     }
-    ```
+```
 
 ### <span id="指针-pointer">**指针 Pointer**</span>
 
 - 通过取地址操作符`&`获取指向值/引用对象的指针。
 
-    ```go
+```go
     var i int = 1
     pi := &i    // 指向数值的指针
 
@@ -803,18 +803,18 @@ description:
     pa := &a    // 指向引用对象的指针
 
     var s *S = &S{0, "1", "2"}    // 指向值对象的指针
-    ```
+```
 
 - 内置函数`new(T)`分配了一个零初始化的 T 值，并返回指向它的指针
 
-    ```go
+```go
     var i = new(int)
     var s *S = new(S)
-    ```
+```
 
 - 使用`*`读取/修改指针指向的值
 
-    ```go
+```go
     func main() {
         i := new(int)
         *i = 3
@@ -823,19 +823,19 @@ description:
         i = new(int)
         println(i, *i)    // 0xc208031f78    0
     }
-    ```
+```
 
 - 指针使用点号来访问结构体字段  
   结构体字段/方法可以通过结构体指针来访问，通过指针间接的访问是透明的。
 
-    ```go
+```go
     fmt.Println(s.A)
     fmt.Println((*s).A)
-    ```
+```
 
 - 指针的指针
 
-    ```go
+```go
     func main() {
         var i int
         var p *int
@@ -848,12 +848,12 @@ description:
         println(i, p, pp, ppp, pppp)    // 123 0xc208031f68 0xc208031f88 0xc208031f80 0xc208031f78
         println(i, *p, **pp, ***ppp, ****pppp)    // 123 123 123 123 123
     }
-    ```
+```
 
 - 跨层指针元素的使用  
   在指针引用多层对象时，指针是针对引用表达式的最后一位元素。
 
-    ```go
+```go
     package a
 
     type X struct {
@@ -865,9 +865,9 @@ description:
     type Z struct {
         C int
     }
-    ```
+```
 
-    ```go
+```go
     package main
     import (
         "a"
@@ -884,7 +884,7 @@ description:
         //  println("*p.A.B.C: ", *p.A.B.C)    // invalid indirect of p.A.B.C (type int)
         println("(*p).A.B.C: ", (*p).A.B.C)    // (*p).A.B.C:  0
     }
-    ```
+```
 
 - Go的指针没有指针运算，但是 **道高一尺，魔高一丈**  
   [Go语言中的指针运算](http://1234n.com/?post/rseosp)  
@@ -896,40 +896,40 @@ description:
   操作符`<-`用于指定channel的方向，发送或接收。  
   如果未指定方向，则为双向channel。
 
-    ```go
+```go
     var c0 chan int      // 可用来发送和接收int类型的值
     var c1 chan<- int    // 可用来发送int类型的值
     var c2 <-chan int    // 可用来接收int类型的值
-    ```
+```
 
 - channel是引用类型，使用`make`函数来初始化。  
   未初始化的channel零值是`nil`，且不能用于发送和接收值。
 
-    ```go
+```go
     c0 := make(chan int)        // 不带缓冲的int类型channel
     c1 := make(chan *int, 10)    // 带缓冲的*int类型指针channel
-    ```
+```
   无缓冲的channe中有值时发送方会阻塞，直到接收方从channel中取出值。  
   带缓冲的channel在缓冲区已满时发送方会阻塞，直到接收方从channel中取出值。  
   接收方在channel中无值会一直阻塞。
 
 - 通过channel发送一个值时，`<-`作为二元操作符使用，  
 
-    ```go
+```go
     c0 <- 3
-    ```
+```
 
   通过channel接收一个值时，`<-`作为一元操作符使用。
 
-    ```go
+```go
     i := <-c1
-    ```
+```
 
 - 关闭channel，只能用于双向或只发送类型的channel  
   只能由 **发送方**调用`close`函数来关闭channel  
   接收方取出已关闭的channel中发送的值后，后续再从channel中取值时会以非阻塞的方式立即返回channel传递类型的零值。
 
-    ```go
+```go
     ch := make(chan string, 1)
 
     // 发送方，发送值后关闭channel
@@ -955,11 +955,11 @@ description:
     ch <- "hi"
     // 再次关闭已经关闭的通道也会产生运行时恐慌panic
     close(ch)
-    ```
+```
 
 - 使用`for range`语句依次读取发送到channel的值，直到channel关闭。
 
-    ```go
+```go
     package main
 
     import "fmt"
@@ -979,11 +979,11 @@ description:
             fmt.Println(x)
         }
     }
-    ```
+```
 
   下面方式与for range用法效果相同
 
-    ```go
+```go
     loop:
         for {
             select {
@@ -994,22 +994,22 @@ description:
                 fmt.Println(x)
             }
         }
-    ```
+```
 
 ### <span id="接口-interface">**接口 Interface**</span>
 
 - 接口类型是由一组方法定义的集合。  
   接口类型的值可以存放实现这些方法的任何值。
 
-    ```go
+```go
     type Abser interface {
         Abs() float64
     }
-    ```
+```
 
 - 类型通过实现定义的方法来实现接口， 不需要显式声明实现某接口。
 
-    ```go
+```go
     type MyFloat float64
 
     func (f MyFloat) Abs() float64 {
@@ -1018,11 +1018,11 @@ description:
         }
         return float64(f)
     }
-    ```
+```
 
 - 接口组合
 
-    ```go
+```go
     type Reader interface {
         Read(b []byte) (n int)
     }
@@ -1063,22 +1063,22 @@ description:
         w.Write(bs)
         rw.Write(bs)
     }
-    ```
+```
 
 - 内置接口类型`error`是一个用于表示错误情况的常规接口，其零值`nil`表示没有错误  
   所有实现了`Error`方法的类型都能表示为一个错误
 
-    ```go
+```go
     type error interface {
         Error() string
     }
-    ```
+```
 
 ### <span id="自定义类型">**自定义类型**</span>
 
 - Go中支持自定义的类型可基于： 基本类型、数组类型、切片类型、字典类型、函数类型、结构体类型、通道类型、接口类型以及自定义类型的类型
 
-    ```go
+```go
     type (
         A int
         B int8
@@ -1107,11 +1107,11 @@ description:
         Y interface {}
         Z A
     )
-    ```
+```
 
 - 以及支持以上所有支持类型的指针类型
 
-    ```go
+```go
     type (
         A *int
         B *int8
@@ -1140,7 +1140,7 @@ description:
         Y *interface {}
         Z *A
     )
-    ```
+```
 
 ## <span id="语句-statement">**语句 Statement**</span>
 
@@ -1159,7 +1159,7 @@ description:
 
 - `if`语句 小括号 ( )是可选的，而大括号 { } 是必须的。
 
-    ```go
+```go
     if (i < 0)        // 编译错误.
         println(i)
 
@@ -1181,11 +1181,11 @@ description:
     } else {
         println(i)
     }
-    ```
+```
 
 - 可以在条件之前执行一个简单的语句，由这个语句定义的变量的作用域仅在 if / else if / else 范围之内
 
-    ```go
+```go
     if (i := 0; i < 1) {    // 编译错误.
         println(i)
     }
@@ -1201,21 +1201,21 @@ description:
     } else {
         println(i)
     }
-    ```
+```
 
 - `if`语句作用域范围内定义的变量会覆盖外部同名变量，与方法函数内局部变量覆盖全局变量同理
 
-    ```go
+```go
     a, b := 0, 1
     if a, b := 3, 4; a > 1 && b > 2 {
         println(a, b)    // 3 4
     }
     println(a, b)        // 0 1
-    ```
+```
 
 - `if`判断语句类型断言
 
-    ```go
+```go
     package main
 
     func f0() int {return 333}
@@ -1244,13 +1244,13 @@ description:
         b := x.(byte)
         println(b)
     }
-    ```
+```
 
 ### <span id="分支选择-switch">**分支选择 switch**</span>
 
 - `switch`存在分支选择对象时，`case`分支支持单个常量、常量列表
 
-    ```go
+```go
     switch x {
     case 0:
         println("single const")
@@ -1259,11 +1259,11 @@ description:
     default:
         println("default")
     }
-    ```
+```
 
 - 分支选择对象之前可以有一个简单语句，case语句的大括号可以省略
 
-    ```go
+```go
     switch x *= 2; x {
     case 4: {
         println("single const")
@@ -1275,11 +1275,11 @@ description:
         println("default")
     }
     }
-    ```
+```
 
 - `switch`只有一个简单语句，没有分支选择对象时，case分支支持逻辑表达式语句
 
-    ```go
+```go
     switch x /= 3; {
     case x == 8:
         println("expression")
@@ -1288,11 +1288,11 @@ description:
     default:
         println("default")
     }
-    ```
+```
 
 - `switch`没有简单语句，没有分支选择对象时，case分支支持逻辑表达式语句
 
-    ```go
+```go
     switch {
     case x == 10:
         println("expression")
@@ -1301,11 +1301,11 @@ description:
     default:
         println("default")
     }
-    ```
+```
 
 - `switch`类型分支，只能在switch语句中使用的`.(type)`获取对象的类型。
 
-    ```go
+```go
     package main
 
     import (
@@ -1377,13 +1377,13 @@ description:
     // channel type : chan<- bool
     // channel type : <-chan string
     // interface type : errors.SignatureError
-    ```
+```
 
 - `switch`中每个case分支默认带有break效果，一个分支执行后就跳出switch，不会自动向下执行其他case。  
   使用`fallthrough`强制向下继续执行后面的case代码。  
   在类型分支中不允许使用`fallthrough`语句
 
-    ```go
+```go
     switch {
     case false:
         println("case 1")
@@ -1403,14 +1403,14 @@ description:
         println("default case")
     }
     // 输出：case 2 case 3 case 4
-    ```
+```
 
 ### <span id="循环语句-for">**循环语句 for**</span>
 
 - Go只有一种循环结构：`for` 循环。  
   可以让前置(初始化)、中间(条件)、后置(迭代)语句为空，或者全为空。
 
-    ```go
+```go
     for i := 0; i < 10; i++ {...}
     for i := 0; i < 10; {...}      // 省略迭代语句
     for i := 0; ; i++; {...}       // 省略条件语句
@@ -1421,19 +1421,19 @@ description:
     for i < 10 {...}
     for ; ; {...}                  // 分号可省略
     for {...}
-    ```
+```
 
 - `for`语句中小括号 ( )是可选的，而大括号 { } 是必须的。
 
-    ```go
+```go
     for (i := 0; i < 10; i++) {...}     // 编译错误.
     for i := 0; (i < 10); i++ {...}     // 编译通过.
     for (i < 10) {...}                  // 编译通过.
-    ```
+```
 
 - Go的for each循环`for range`
 
-    ```go
+```go
     a := [5]int{2, 3, 4, 5, 6}
 
 
@@ -1452,11 +1452,11 @@ description:
     for range a {
         fmt.Println("new syntax – print without care about the key and value")
     }
-    ```
+```
 
 - 循环的继续、中断、跳转
 
-    ```go
+```go
     for k, v := range s {
         if v == 3 {
             continue    // 结束本次循环，进入下一次循环中
@@ -1466,11 +1466,11 @@ description:
             goto SOMEWHERE    // 跳转到标签指定的代码处
         }
     }
-    ```
+```
 
 - `for range`只支持遍历`数组`、`数组指针`、`slice`、`string`、`map`、`channel`类型
 
-    ```go
+```go
     package main
     import "fmt"
 
@@ -1546,7 +1546,7 @@ description:
             fmt.Printf("%d ", x)    // 0 1 2 3 4
         }
     }
-    ```
+```
 
 ### <span id="通道选择-select">**通道选择 select**</span>
 
@@ -1554,7 +1554,7 @@ description:
   如果任意一个通讯都可以进一步处理，则从中随机选择一个，执行对应的语句。否则在没有默认分支(default case)时，select语句则会阻塞，直到其中一个通讯完成。  
   select 的 case 里的操作语句只能是IO操作
 
-    ```go
+```go
     ch1, ch2 := make(chan int), make(chan int)
 
     // 因为没有值发送到select中的任一case的channel中，此select将会阻塞
@@ -1564,9 +1564,9 @@ description:
     case <-ch2:
         println("channel 2")
     }
-    ```
+```
 
-    ```go
+```go
     ch1, ch2 := make(chan int), make(chan int)
 
     // 因为没有值发送到select中的任一case的channel中，此select将会执行default分支
@@ -1578,11 +1578,11 @@ description:
     default:
         println("default")
     }
-    ```
+```
 
 - select只会执行一次case分支的逻辑，与`for`组合使用实现多次遍历分支
 
-    ```go
+```go
     func main() {
         for {
             select {
@@ -1596,13 +1596,13 @@ description:
             }
         }
     }
-    ```
+```
 
 ### <span id="延迟执行-defer">**延迟执行 defer**</span>
 
 - `defer`语句调用函数，将调用的函数加入defer栈，栈中函数在defer所在的主函数返回时执行，执行顺序是先进后出/后进先出。
 
-    ```go
+```go
     package main
 
     func main() {
@@ -1617,11 +1617,11 @@ description:
         }
         // 输出：9876543210
     }
-    ```
+```
 
 - defer在函数返回后执行，可以修改函数返回值
 
-    ```go
+```go
     package main
 
     func main() {
@@ -1634,44 +1634,44 @@ description:
         }()
         return 3
     }
-    ```
+```
 
 - defer用于释放资源  
 
   释放锁
-    ```go
+```go
     mu.Lock()
     defer mu.Unlock()
-    ```
+```
 
   关闭channel
 
-    ```go
+```go
     ch <- "hello"
     defer close(ch)
-    ```
+```
 
   关闭IO流
 
-    ```go
+```go
     f, err := os.Open("file.xxx")
     defer f.Close()
-    ```
+```
 
   关闭数据库连接
 
-    ```go
+```go
     db, err := sql.Open("mysql","user:password@tcp(127.0.0.1:3306)/hello")
     if err != nil {
         log.Fatal(err)
     }
     defer db.Close()
-    ```
+```
 
 - defer用于恐慌的截获  
   `panic`用于产生恐慌，`recover`用于截获恐慌，recover只能在defer语句中使用, 直接调用recover是无效的。
 
-    ```go
+```go
     func main() {
         f()
         fmt.Println("main normal...")
@@ -1690,7 +1690,7 @@ description:
     func p() {
         panic("exception...")
     }
-    ```
+```
 
 ### <span id="跳转语句-goto">**跳转语句 goto**</span>
 
@@ -1698,7 +1698,7 @@ description:
 
 - `goto`模拟循环
 
-    ```go
+```go
     package main
 
     func main() {
@@ -1710,11 +1710,11 @@ description:
         }
         println(i)
     }
-    ```
+```
 
 - `goto`模拟`continue`，`break`
 
-    ```go
+```go
     func main() {
         i, sum := 0, 0
     head:
@@ -1731,7 +1731,7 @@ description:
     tail:
         println(sum)    // 输出：35
     }
-    ```
+```
 
 - **注意**：任何时候都不建议使用`goto`  
 
@@ -1741,26 +1741,26 @@ description:
 
 - 使用关键字`func`声明函数，函数可以没有参数或接受多个参数
 
-    ```go
+```go
     func f0() {/*...*/}
 
     func f1(a int) {/*...*/}
 
     func f2(a int, b byte) {/*...*/}
-    ```
+```
 
 - 在函数参数类型之前使用`...`声明该参数为可变数量的参数  
   可变参数只能声明为函数的最后一个参数。
 
-    ```go
+```go
     func f3(a ...int) {/*...*/}
 
     func f4(a int, b bool, c ...string) {/*...*/}
-    ```
+```
 
 - 函数可以返回任意数量的返回值
 
-    ```go
+```go
     func f0() {
         return
     }
@@ -1772,28 +1772,28 @@ description:
     func f2() (int, string) {
         return 0, "A"
     }
-    ```
+```
 
 - 函数返回结果参数，可以像变量那样命名和使用
 
-    ```go
+```go
     func f() (a int, b string) {
         a = 1
         b = "B"
         return    // 即使return后面没有跟变量，关键字在函数结尾也是必须的
         // 或者 return a, b
     }
-    ```
+```
 
 - 当两个或多个连续的函数命名参数是同一类型，则除了最后一个类型之外，其他都可以省略
 
-    ```go
+```go
     func f0(a,b,c int) {/*...*/}
 
     func f1() (a,b,c int) {/*...*/}
 
     func f2(a,b int, c,d byte) (x,y int, z,s bool) {/*...*/}
-    ```
+```
 
 ### <span id="函数闭包-closure">**函数闭包 Closure**</span>
 
@@ -1801,7 +1801,7 @@ description:
   Go中函数作为第一类对象，可以作为值对象赋值给变量  
   可以在函数体外/内定义匿名函数，命名函数不能嵌套定义到函数体内，只能定义在函数体外
 
-    ```go
+```go
     package main
 
     type Myfunc func(i int) int
@@ -1829,35 +1829,35 @@ description:
         var f4 = func() {/*...*/}
         f5 := func() {/*...*/}
     }
-    ```
+```
 
 ### <span id="内建函数-builtin">**内建函数 Builtin**</span>
 
 - `func append`
 
-    ```go
+```go
     func append(slice []Type, elems ...Type) []Type
-    ```
+```
 
     > 内建函数append将元素追加到切片的末尾。若它有足够的容量，其目标就会重新切片以容纳新的元素。否则，就会分配一个新的基本数组。append返回更新后的切片，因此必须存储追加后的结果。
 
-    ```go
+```go
     slice = append(slice, elem1, elem2)
     slice = append(slice, anotherSlice...)
-    ```
+```
 
     > 作为特例，可以向一个字节切片append字符串，如下：
 
-    ```go
+```go
     slice = append([]byte("hello "), "world"...)
-    ```
+```
 
 <br>
 - `func cap`
 
-    ```go
+```go
     func cap(v Type) int
-    ```
+```
 
     > 内建函数cap返回 v 的容量，这取决于具体类型：  
     数组：v中元素的数量，与 len(v) 相同  
@@ -1868,40 +1868,40 @@ description:
 <br>
 - `func close`
 
-    ```go
+```go
     func close(c chan<- Type)
-    ```
+```
 
     > 内建函数close关闭信道，该通道必须为双向的或只发送的。它应当只由发送者执行，而不应由接收者执行，其效果是在最后发送的值被接收后停止该通道。在最后的值从已关闭的信道中被接收后，任何对其的接收操作都会无阻塞的成功。对于已关闭的信道，语句：
 
-    ```go
+```go
     x, ok := <-c    // ok值为false
-    ```
+```
 
 <br>
 - `func complex`
 
-    ```go
+```go
     func complex(r, i FloatType) ComplexType
-    ```
+```
 
     > 使用实部r和虚部i生成一个复数。
 
-    ```go
+```go
     c := complex(1, 2)
     fmt.Println(c)    // (1+2i)
-    ```
+```
 
 <br>
 - `func copy`
 
-    ```go
+```go
     func copy(dst, src []Type) int
-    ```
+```
 
     > 内建函数copy将元素从来源切片复制到目标切片中，也能将字节从字符串复制到字节切片中。copy返回被复制的元素数量，它会是 len(src) 和 len(dst) 中较小的那个。来源和目标的底层内存可以重叠。
 
-    ```go
+```go
     a, b, c := []byte{1, 2, 3}, make([]byte, 2), 0
     fmt.Println("a:", a, " b:", b, " c: ", c)    // a: [1 2 3]  b: [0 0]  c:  0
 
@@ -1915,18 +1915,18 @@ description:
     s := "ABCD"
     c = copy(b, s)
     fmt.Println("s:", s, " b:", b, " c: ", c)    // s: ABCD  b: [65 66 67 68 0]  c:  4
-    ```
+```
 
 <br>
 - `func delete`
 
-    ```go
+```go
     func delete(m map[Type]Type1, key Type)
-    ```
+```
 
     > 内建函数delete按照指定的键将元素从映射中删除。若m为nil或无此元素，delete不进行操作。
 
-    ```go
+```go
     m := map[int]string{
         0: "A",
         1: "B",
@@ -1936,28 +1936,28 @@ description:
     fmt.Println(m)    // map[2:C 0:A]
 
     delete(m, 3)    // 此行代码执行没有任何操作，也不会报错。
-    ```
+```
 
 <br>
 - `func imag`
 
-    ```go
+```go
     func imag(c ComplexType) FloatType
-    ```
+```
 
     > 返回复数c的虚部。
 
-    ```go
+```go
     c := 2+5i
     fmt.Println(imag(c))    // 5
-    ```
+```
 
 <br>
 - `func len`
 
-    ```go
+```go
     func len(v Type) int
-    ```
+```
 
     > 内建函数len返回 v 的长度，这取决于具体类型：  
     数组：v中元素的数量  
@@ -1969,9 +1969,9 @@ description:
 <br>
 - `func make`
 
-    ```go
+```go
     func make(Type, size IntegerType) Type
-    ```
+```
 
     > 内建函数make分配并初始化一个类型为切片、映射、或通道的对象。其第一个实参为类型，而非值。make的返回类型与其参数相同，而非指向它的指针。其具体结果取决于具体的类型：  
     切片：size指定了其长度。该切片的容量等于其长度。切片支持第二个整数实参可用来指定不同的容量；它必须不小于其长度，因此 make([]int, 0, 10) 会分配一个长度为0，容量为10的切片。  
@@ -1981,59 +1981,59 @@ description:
 <br>
 - `func new`
 
-    ```go
+```go
     func new(Type) *Type
-    ```
+```
 
     > 内建函数new分配内存。其第一个实参为类型，而非值。其返回值为指向该类型的新分配的零值的指针。
 
 <br>
 - `func panic`
 
-    ```go
+```go
     func panic(v interface{})
-    ```
+```
 
     > 内建函数panic停止当前Go程的正常执行。当函数F调用panic时，F的正常执行就会立刻停止。F中defer的所有函数先入后出执行后，F返回给其调用者G。G如同F一样行动，层层返回，直到该Go程中所有函数都按相反的顺序停止执行。之后，程序被终止，而错误情况会被报告，包括引发该恐慌的实参值，此终止序列称为恐慌过程。
 
 <br>
 - `func print`
 
-    ```go
+```go
     func print(args ...Type)
-    ```
+```
 
     > 内建函数print以特有的方法格式化参数并将结果写入标准错误，用于自举和调试。
 
 <br>
 - `func println`
 
-    ```go
+```go
     func println(args ...Type)
-    ```
+```
 
     > println类似print，但会在参数输出之间添加空格，输出结束后换行。
 
 <br>
 - `func real`
 
-    ```go
+```go
     func real(c ComplexType) FloatType
-    ```
+```
 
     > 返回复数c的实部。
 
-    ```go
+```go
     c := 2+5i
     fmt.Println(real(c))    // 2
-    ```
+```
 
 <br>
 - `func recover`
 
-    ```go
+```go
     func recover() interface{}
-    ```
+```
 
     > 内建函数recover允许程序管理恐慌过程中的Go程。在defer的函数中，执行recover调用会取回传至panic调用的错误值，恢复正常执行，停止恐慌过程。若recover在defer的函数之外被调用，它将不会停止恐慌过程序列。在此情况下，或当该Go程不在恐慌过程中时，或提供给panic的实参为nil时，recover就会返回nil。
 
@@ -2042,15 +2042,15 @@ description:
 - `init`函数是用于程序执行前做包的初始化工作的函数  
   `init`函数的声明没有参数和返回值
 
-    ```go
+```go
     func init() {
         // ...
     }
-    ```
+```
 
 - 一个package或go源文件可以包含零个或多个init函数
 
-    ```go
+```go
     package main
 
     func main() {
@@ -2065,11 +2065,11 @@ description:
     func init() {
         println("init3...")
     }
-    ```
+```
 
 - init函数被自动调用，在main函数之前执行，不能在其他函数中调用，显式调用会报错该函数未定义。
 
-    ```go
+```go
     func init() {
         println("init...")
     }
@@ -2077,7 +2077,7 @@ description:
     func main() {
         init()    // undefined: init
     }
-    ```
+```
 
 - 所有`init`函数都会被自动调用，调用顺序如下：
     1. 同一个go文件的init函数调用顺序是 **从上到下**的
@@ -2093,7 +2093,7 @@ description:
   不能对接口类型和接口类型的指针编写方法。  
   方法的接收者receiver是类型的值时，编译器会隐式的生成一个同名方法，其接收者receiver为该类型的指针，反过来却不会。
 
-    ```go
+```go
     package main
 
     type A struct {
@@ -2186,7 +2186,7 @@ description:
         // (*A).setY(c, 8)
         // println(c.x, c.y)
     }
-    ```
+```
 
 - 结构体中组合匿名字段时，匿名字段的方法会向外传递，其规则如下：   
   匿名字段为值类型时：值的方法会传递给结构体的值，指针的方法会传递给结构体的指针；   
@@ -2200,7 +2200,7 @@ description:
 - 协程`goroutine`是由Go运行时环境管理的轻量级线程。  
   使用关键字`go`调用一个函数/方法，启动一个新的协程goroutine
 
-    ```go
+```go
     package main
 
     import (
@@ -2218,7 +2218,7 @@ description:
         say(0)
         time.Sleep(5 * time.Second)
     }
-    ```
+```
 
     主协程goroutine输出0，其他由go启动的几个子协程分别输出1～5
 
@@ -2231,7 +2231,7 @@ description:
 
 - goroutine 在相同的地址空间中运行，因此访问共享内存必须进行同步。
 
-    ```go
+```go
     package main
 
     import (
@@ -2257,11 +2257,11 @@ description:
         defer mu.Unlock()
         i++
     }
-    ```
+```
 
   使用通道channel进行同步
 
-    ```go
+```go
     package main
 
     import (
@@ -2284,11 +2284,11 @@ description:
         i++
         <-ch
     }
-    ```
+```
 
 - 使用channel在不同的goroutine之间通信
 
-    ```go
+```go
     // 上一个例子只是将channel用作同步开关，稍做修改即可在不同goroutine间通信
     package main
 
@@ -2315,7 +2315,7 @@ description:
         x++
         ch <- x
     }
-    ```
+```
 
 ## <span id="测试-testing">**测试 Testing**</span>
 
@@ -2325,7 +2325,7 @@ description:
 
 - 有如下待测试testgo包，一段简单的求和代码
 
-    ```go
+```go
     package testgo
 
     import "math"
@@ -2340,7 +2340,7 @@ description:
         }
         return
     }
-    ```
+```
 
 - 测试源文件名必须是`_test.go`结尾的，go test的时候才会执行到相应的代码  
   必须import testing包  
@@ -2350,7 +2350,7 @@ description:
   测试格式：`func TestXxx (t *testing.T)`，Xxx部分可以为任意的字母数字的组合，首字母不能是小写字母[a-z]，例如Testsum是错误的函数名。  
   函数中通过调用*testing.T的Error，Errorf，FailNow，Fatal，FatalIf方法标注测试不通过，调用Log方法用来记录测试的信息。
 
-    ```go
+```go
     package testgo
 
     import "testing"
@@ -2367,7 +2367,7 @@ description:
             t.Error("not equal.")
         }
     }
-    ```
+```
 
   在当前包中执行测试：`go test -v`
 
@@ -2385,7 +2385,7 @@ description:
   go test默认不会执行基准测试的函数，需要加上参数-test.bench，语法:-test.bench="test_name_regex"，例如go test -test.bench=".*"表示测试全部的基准测试函数  
   在基准测试用例中，在循环体内使用testing.B.N，使测试可以正常的运行
 
-    ```go
+```go
     package testgo
 
     import "testing"
@@ -2393,7 +2393,7 @@ description:
     func BenchmarkSum(b *testing.B) {
         b.Logf("Sum 1 to %d: %d\n", b.N, Sum(1, b.N))
     }
-    ```
+```
 
   在当前包中执行测试：`go test -v -bench .`
 
