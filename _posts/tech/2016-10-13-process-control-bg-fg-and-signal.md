@@ -1,3 +1,11 @@
+---
+layout: post
+title: Linux 进程控制(前后台切换，signal)
+category: 技术
+tags: linux process signal
+keywords: process
+description:
+---
 
 ### 问题的发现
 
