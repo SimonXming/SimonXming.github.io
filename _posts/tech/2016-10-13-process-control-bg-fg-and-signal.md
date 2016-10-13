@@ -30,6 +30,7 @@ yum install net-tools
 ```
 我转到其他终端继续工作。然后，终端离线了。
 当我再次登录尝试安装`net-tools`后。
+
 ```shell
 已加载插件：fastestmirror
 /var/run/yum.pid 已被锁定，PID 为 5599 的另一个程序正在运行。
@@ -40,6 +41,7 @@ Another app is currently holding the yum lock; waiting for it to exit...
     状态  ：睡眠中，进程ID：5599
 ```
 查看进程状态
+
 ```shell
 ps -ef|grep yum
 # output
@@ -72,6 +74,7 @@ l    is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
 2. 利用linux signal系统使进程在后台继续执行
 
 #### 方案一
+
 ```shell
 # 查询当前处于后台的进程
 jobs -l
