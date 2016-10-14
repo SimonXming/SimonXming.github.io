@@ -1,11 +1,13 @@
 ---
 layout: post
-title: Paxos算法入门
+title: Paxos算法wiki + 讲解
 category: 技术
 tags: 分布式 一致性 算法
 keywords: 分布式
 description:
 ---
+
+## Wiki
 
 Paxos算法是莱斯利·兰伯特（英语：Leslie Lamport，LaTeX中的“La”）于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。
 
@@ -103,3 +105,54 @@ __P4：只有Acceptor没有接受过提案Proposer才能采用自己的Value，�
 7. 此时过半的Acceptor都接受了Proposer2的提案[4,server2],Larner感知到了提案的通过，Larner学习提案，server2成为Leader；
 
 __一个Paxos过程只会产生一个议案所以至此这个流程结束，选举结果server2为Leader.__
+
+## Explanation
+
+### 数据库高可用性难题
+
+数据库的数据一致和持续可用对电子商务和互联网金融的意义不言而喻，而这些业务在使用数据库时，无论 MySQL 还是 Oracle，都会面临一个艰难的取舍，就是如何处理主备库之间的数据同步。对于传统的主备模式或者一主多备模式，我们都需要考虑的问题，就是与备机保持强同步还是异步复制。
+
+对于强同步模式，要求主机必须把 Redolog 同步到备机之后，才能应答客户端，一旦主备之间出现网络抖动，或者备机宕机，则主机无法继续提供服务，这种模式实现了数据的强一致，但是牺牲了服务的可用性，且由于跨机房同步延迟过大使得跨机房的主备模式也变得不实用。
+
+而对于异步复制模式，主机写本地成功后，就可以立即应答客户端，无需等待备机应答，这样一旦主机宕机无法启动，少量不同步的日志将丢失，这种模式实现了服务持续可用，但是牺牲了数据一致性。这两种方式对应的就是 Oracle 的 Max Protection 和 Max Performance 模式，而 Oracle 另一个最常用的 Max Availability 模式，则是一个折中，在备机无应答时退化为 Max Performance 模式，我认为本质上还是异步复制。
+
+主备模式还有一个无法绕过的问题，就是选主，最简单山寨的办法，搞一个单点，定时 Select 一下主机和各个备机，貌似 MHA 就是这个原理，具体实现细节我就不太清楚了。一个改进的方案是使用类似 ZooKeeper 的多点服务替代单点，各个数据库机器上使用一个 Agent 与单点保持 Lease，主机 Lease 过期后，立即置为只读。改进的方案基本可以保证不会出现双主，而缺点是 ZooKeeper 的可维护性问题，以及多级 Lease 的恢复时长问题（这个本次就不展开讲了，感兴趣的同学请参考这篇文章 Http://oceanbase.org.cn/
+
+### Paxos 协议简单回顾
+
+主备方式处理数据库高可用问题有上述诸多缺陷，要改进这种数据同步方式，我们先来梳理下数据库高可用的几个基本需求：
+
+1. 数据不丢失
+2. 服务持续可用
+3. 自动的主备切换
+
+使用 Paxos 协议的日志同步可以实现这三个需求，而 Paxos 协议需要依赖一个基本假设，主备之间有多数派机器（N / 2 + 1）存活并且他们之间的网络通信正常，如果不满足这个条件，则无法启动服务，数据也无法写入和读取。
+
+我们先来简单回顾一下 Paxos 协议的内容，首先，Paxos 协议是一个解决分布式系统中，多个节点之间就某个值（提案）达成一致（决议）的通信协议。它能够处理在少数派离线的情况下，剩余的多数派节点仍然能够达成一致。然后，再来看一下协议内容，它是一个两阶段的通信协议，推导过程我就不写了（中文资料请参考这篇 [http://t.cn/R40lGrp](http://t.cn/R40lGrp) ），直接看最终协议内容：
+
+
+1. 第一阶段 Prepare
+#### P1a：Proposer 发送 Prepare
+    Proposer 生成全局唯一且递增的提案 ID（Proposalid，以高位时间戳 + 低位机器 IP 可以保证唯一性和递增性），向 Paxos 集群的所有机器发送 PrepareRequest，这里无需携带提案内容，只携带 Proposalid 即可。
+#### P1b：Acceptor 应答 Prepare
+    Acceptor 收到 PrepareRequest 后，做出 “两个承诺，一个应答”。
+
+    两个承诺：
+    第一，不再应答 Proposalid 小于等于（注意：这里是 <= ）当前请求的 PrepareRequest；
+    第二，不再应答 Proposalid 小于（注意：这里是 < ）当前请求的 AcceptRequest
+
+    一个应答：
+    返回自己已经 Accept 过的提案中 ProposalID 最大的那个提案的内容，如果没有则返回空值;
+
+    注意：这 “两个承诺” 中，蕴含两个要点：
+
+    就是应答当前请求前，也要按照 “两个承诺” 检查是否会违背之前处理 PrepareRequest 时做出的承诺；
+    应答前要在本地持久化当前 Propsalid。
+
+2. 第二阶段 Accept
+#### P2a：Proposer 发送 Accept
+    “提案生成规则”：Proposer 收集到多数派应答的 PrepareResponse 后，从中选择 proposalid 最大的提案内容，作为要发起 Accept 的提案，如果这个提案为空值，则可以自己随意决定提案内容。然后携带上当前 Proposalid，向 Paxos 集群的所有机器发送 AccpetRequest。
+#### P2b：Acceptor 应答 Accept
+    Accpetor 收到 AccpetRequest 后，检查不违背自己之前作出的 “两个承诺” 情况下，持久化当前 Proposalid 和提案内容。最后 Proposer 收集到多数派应答的 AcceptResponse 后，形成决议。
+
+    这里的 “两个承诺” 很重要，后面也会提及，请大家细细品味。
