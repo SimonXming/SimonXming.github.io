@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Python的类方法和静态方法
-category: 技术
+category: 语言
 tags: Python 概念
 keywords: Python
 description:

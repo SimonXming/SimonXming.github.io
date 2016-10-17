@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 一分钟让你的python程序支持并发和队列
-category: 技术
+category: 语言
 tags: 并发 队列
 keywords: 并发
 description:
@@ -77,7 +77,7 @@ class SimpleMapReduce(object):
     也就是花了249秒！！那设想下，现在有T级别的日志，更复杂的处理，你得等多久？
 
 2. multiprocessing_queue.py。多进程 + 队列的方式，把每个文件作为任务放入队列，启动X个进程去获取任务，最后放X个None到队列中，如果获取的任务是None，表示任务都执行完了，进程就结束。任务的执行结果放另外一个队列，最后获取全部的执行结果，这次没有放None，而是捕捉get方法超时来判断队列中有没有待执行的任务。同时，也测试了单倍和双倍CPU个数（测试使用的服务器为24核）的进程的执行效果的对比：
-    
+
     CPU个数：COST: 30.0309579372
 
     CPU个数 * 2：COST: 32.4717597961

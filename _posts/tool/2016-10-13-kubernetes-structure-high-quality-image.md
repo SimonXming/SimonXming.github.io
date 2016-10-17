@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Kubernetes基础
-category: 技术
-tags: k8s
+category: 工具
+tags: k8s 容器 编排
 keywords: k8s
 description:
 ---

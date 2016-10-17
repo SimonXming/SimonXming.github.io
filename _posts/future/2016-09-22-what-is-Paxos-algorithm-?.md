@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Paxos算法wiki + 讲解
-category: 技术
+category: 未来
 tags: 分布式 一致性 算法
 keywords: 分布式
 description:

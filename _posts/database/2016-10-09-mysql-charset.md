@@ -1,7 +1,7 @@
 ---
 layout: post
 title: mysql字符集相关
-category: 技术
+category: 数据库
 tags: mysql
 keywords: mysql
 description:

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux Namespace简介 part-2 - IPC
-category: 技术
+category: 系统
 tags: linux 虚拟化
 keywords: linux
 description:
