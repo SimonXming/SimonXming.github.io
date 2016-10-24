@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 不要开启`net.ipv4.tcp_tw_recycle`选项
+title: 不要开启 net.ipv4.tcp_tw_recycle 选项
 category: 网络
 tags: Linux 网络 优化
 keywords: Linux
@@ -25,6 +25,7 @@ net.ipv4.tcp_tw_recycle = 0
 # Then
 sysctl --system
 ```
+
 ### What is net.ipv4.tcp_tw_recycle?
 
 Linux kernel 文档中关于 `net.ipv4.tcp_tw_recycle` 的描述并不能清楚的告诉我们它做了什么。
@@ -46,6 +47,7 @@ Linux kernel 文档中关于 `net.ipv4.tcp_tw_recycle` 的描述并不能清楚�
 只有主动(首先)关闭连接的一方才会到达 TIME-WAIT state. 接收关闭请求的一方通常会许可(permits)快速清除掉链接。
 
 你可用通过 `ss -tan` 查看当前连接状态
+
 ```shell
 $ ss -tan | head -5
 LISTEN     0  511             *:80              *:*     
@@ -129,3 +131,14 @@ It is possible to override it by specifying the number of entries on the kernel 
 Each element of the list of connections in the TIME-WAIT state is a struct `tcp_timewait_sock`, while the type for other states is struct `tcp_sock`:
 
 <script src="https://gist.github.com/SimonXming/555c8087948f2fbb6acbb6c71fe7b691.js"></script>
+
+2.A set of lists of connections, called the “death row”, is used to expire the connections in the TIME-WAIT state. They are ordered by how much time left before expiration.
+
+It uses the same memory space as for the entries in the hash table of connections. This is the struct `hlist_node tw_death_node` member of struct `inet_timewait_sock8`.
+
+3.A hash table of bound ports, holding the locally bound ports and the associated parameters, is used to determine if it is safe to listen to a given port or to find a free port in the case of dynamic bind. The size of this hash table is the same as the size of the hash table of connections:
+
+```shell
+$ dmesg | grep "TCP bind hash table"
+[    0.169962] TCP bind hash table entries: 65536 (order: 8, 1048576 bytes)
+```
