@@ -1,7 +1,18 @@
 ---
 layout: post
 ---
+
+New Lead:
+
+__<small> Update at (2016-12-09)<small>__
+
+> You got to understand what you are doing .
+
+> Next level: Testing and Monitoring master.
+
 As `Nicholas Coghlan(CPython core developer)` says:
+
+__<small> Update at (2016-11-12)<small>__
 
 > There are a couple of very, very scary things in this world.
 
