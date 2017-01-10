@@ -22,7 +22,30 @@ description:
 幼师|教育||暂无
 
 
-### [New!]用户研究员
+### [New!]Frontend engineer(前端工程师)
+
+#### 作品集合
+
+[codepen](http://codepen.io/)
+
+#### 描述信息
+
+Frontend vs. Backend
+![Frontend vs. Backend](https://dn-h5jun.qbox.me/matrix/uqg7CPR-YN1IUT9BSwyoj6ib.png)
+
+前端工程师最核心的技能是：
+
+![HTML JS CSS](http://p5.ssl.qhimg.com/d/inn/3e83de98/html_css_js.png)
+
+**2017年度更新**
+
+    前端工程师最核心的技能是：HTML5, JS2016, CSS4
+
+#### 相关资源
+
+[前端工程师的职业发展规划](https://github.com/f2e-journey/f2e-journey/blob/master/career-planning.md)
+
+### 用户研究员
 
 #### 社区
 [用户体验人专业社区](http://uxren.cn/)
