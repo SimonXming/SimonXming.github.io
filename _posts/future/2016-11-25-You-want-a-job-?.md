@@ -41,6 +41,10 @@ Frontend vs. Backend
 
     前端工程师最核心的技能是：HTML5, JS2016, CSS4
 
+* [HTML5](https://zh.wikipedia.org/zh/HTML5)
+* [JS2016](https://zh.wikipedia.org/zh-hans/JavaScript)
+* [CSS4](https://zh.wikipedia.org/wiki/%E5%B1%82%E5%8F%A0%E6%A0%B7%E5%BC%8F%E8%A1%A8#CSS4)
+
 #### 相关资源
 
 [前端工程师的职业发展规划](https://github.com/f2e-journey/f2e-journey/blob/master/career-planning.md)
