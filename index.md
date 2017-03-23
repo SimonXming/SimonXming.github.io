@@ -10,7 +10,7 @@ layout: post
 
 > What's your choice?
 
-<small align="right"> Update at (2017-03-23)<small>
+<p align="right"><small> Update at (2017-03-23)<small></p>
 
 <hr>
 
@@ -20,7 +20,7 @@ layout: post
 
 > Next level: Testing and Monitoring master.
 
-<small align="right"> Update at (2016-12-09)<small>
+<p align="right"><small> Update at (2016-12-09)<small></p>
 
 <hr>
 
@@ -36,4 +36,4 @@ layout: post
 
 > --------------------- [curiousefficiency.org](http://www.curiousefficiency.org/pages/about.html)
 
-<small align="right"> Update at (2016-11-12)<small>
+<p align="right"><small> Update at (2016-11-12)<small></p>
