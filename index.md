@@ -2,27 +2,31 @@
 layout: post
 ---
 
+<hr>
+
 <small> Update at (2017-03-23)<small>
 
-Big Question:
+### Big Question:
 
 > You know several things very important VS. You think you know many things pretty important
 
 > What's your choice?
 
+<hr>
 
 <small> Update at (2016-12-09)<small>
 
-New Lead:
+### New Lead:
 
 > You got to understand what you are doing .
 
 > Next level: Testing and Monitoring master.
 
+<hr>
 
 <small> Update at (2016-11-12)<small>
 
-As `Nicholas Coghlan(CPython core developer)` says:
+### As `Nicholas Coghlan(CPython core developer)` says:
 
 > There are a couple of very, very scary things in this world.
 
