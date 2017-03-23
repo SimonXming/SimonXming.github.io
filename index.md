@@ -2,6 +2,14 @@
 layout: post
 ---
 
+Big Question:
+
+__<small> Update at (2017-03-23)<small>__
+
+> You know several things very important VS. You think you know many things pretty important
+
+> What's your choice?
+
 New Lead:
 
 __<small> Update at (2016-12-09)<small>__
