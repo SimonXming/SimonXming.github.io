@@ -4,25 +4,27 @@ layout: post
 
 <hr>
 
-### Big Question: <small> Update at (2017-03-23)<small>
+### Big Question:
 
 > You know several things very important VS. You think you know many things pretty important
 
 > What's your choice?
 
+<small> Update at (2017-03-23)<small>
+
 <hr>
 
-### New Lead: <small> Update at (2016-12-09)<small>
+### New Lead:
 
 > You got to understand what you are doing .
 
 > Next level: Testing and Monitoring master.
 
+<small> Update at (2016-12-09)<small>
+
 <hr>
 
-
-
-### As `Nicholas Coghlan(CPython core developer)` says: <small> Update at (2016-11-12)<small>
+### As `Nicholas Coghlan(CPython core developer)` says:
 
 > There are a couple of very, very scary things in this world.
 
@@ -33,3 +35,5 @@ layout: post
 > So, here's to boredom & laziness - two of the prime movers in human progress!
 
 > --------------------- [curiousefficiency.org](http://www.curiousefficiency.org/pages/about.html)
+
+<small> Update at (2016-11-12)<small>
