@@ -2,25 +2,27 @@
 layout: post
 ---
 
-Big Question:
+<small> Update at (2017-03-23)<small>
 
-__<small> Update at (2017-03-23)<small>__
+Big Question:
 
 > You know several things very important VS. You think you know many things pretty important
 
 > What's your choice?
 
-New Lead:
 
-__<small> Update at (2016-12-09)<small>__
+<small> Update at (2016-12-09)<small>
+
+New Lead:
 
 > You got to understand what you are doing .
 
 > Next level: Testing and Monitoring master.
 
-As `Nicholas Coghlan(CPython core developer)` says:
 
-__<small> Update at (2016-11-12)<small>__
+<small> Update at (2016-11-12)<small>
+
+As `Nicholas Coghlan(CPython core developer)` says:
 
 > There are a couple of very, very scary things in this world.
 
