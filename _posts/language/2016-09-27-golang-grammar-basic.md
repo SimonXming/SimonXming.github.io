@@ -796,6 +796,52 @@ func main() {
 
 ### <span id="指针-pointer">**指针 Pointer**</span>
 
+- short but quick
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a int = 1
+	var b *int = &a
+	var c **int = &b
+	var x int = *b
+	fmt.Println(a == *b)
+	fmt.Println("a = ", a)
+	fmt.Println("&a = ", &a)
+	fmt.Println("*&a = ", *&a)
+	fmt.Println("b = ", b)
+	fmt.Println("&b = ", &b)
+	fmt.Println("*&b = ", *&b)
+	fmt.Println("*b = ", *b)
+	fmt.Println("c = ", c)
+	fmt.Println("*c = ", *c)
+	fmt.Println("&c = ", &c)
+	fmt.Println("*&c = ", *&c)
+	fmt.Println("**c = ", **c)
+	fmt.Println("***&*&*&*&c = ", ***&*&*&*&*&c)
+	fmt.Println("x = ", x)
+}
+
+>>> true
+>>> a =  1
+>>> &a =  0xc42000e248
+>>> *&a =  1
+>>> b =  0xc42000e248
+>>> &b =  0xc42000c028
+>>> *&b =  0xc42000e248
+>>> *b =  1
+>>> c =  0xc42000c028
+>>> *c =  0xc42000e248
+>>> &c =  0xc42000c030
+>>> *&c =  0xc42000c028
+>>> **c =  1
+>>> ***&*&*&*&c =  1
+>>> x =  1
+```
+
 - 通过取地址操作符`&`获取指向值/引用对象的指针。
 
 ```go
