@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Go 接口——类型断言
+title: Go 接口——类型转化
 category: 语言
-tags: Go 类型断言
-keywords: 类型断言
+tags: Go 类型转化
+keywords: 类型转化
 description:
 ---
 
