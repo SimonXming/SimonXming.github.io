@@ -31,13 +31,13 @@ description:
 
 在 Kubernetes 网络中存在两种IP（Pod IP 和 Service Cluster IP），Pod IP 地址是实际存在于某个网卡(可以是虚拟设备)上的，Service Cluster IP它是一个虚拟IP，是由 kube-proxy 使用 Iptables 规则重新定向到其本地端口，再均衡到后端 Pod 的。下面讲讲 Kubernetes Pod 网络设计模型：
 
-1. 基本原则：    
+1. 基本原则：
 每个Pod都拥有一个独立的IP地址（IP per Pod），而且假定所有的pod都在一个可以直接连通的、扁平的网络空间中。
 
 2. 设计原因：
 用户不需要额外考虑如何建立Pod之间的连接，也不需要考虑将容器端口映射到主机端口等问题。
 
-3. 网络要求： 
+3. 网络要求：
 所有的容器都可以在不用NAT的方式下同别的容器通讯；所有节点都可在不用NAT的方式下同所有容器通讯；容器的地址和别人看到的地址是同一个地址。
 
 Kubernetes 网络需要解决下面四类不同的问题：
@@ -47,6 +47,33 @@ Kubernetes 网络需要解决下面四类不同的问题：
 * Pod 和 Service 间通信
 * 外部和内部通信
 
+## Kubernetes 中的 PodIP、ClusterIP 和外部 IP
+
+其中，Kubernetes 中管理主要有三种类型的 IP:Pod IP 、Cluster IP 和 外部 IP。
+
+#### Pod IP
+Kubernetes 的最小部署单元是 Pod。利用 Flannel 作为不同 HOST 之间容器互通技术时，由 Flannel 和 etcd 维护了一张节点间的路由表。Flannel 的设计目的就是为集群中的所有节点重新规划 IP 地址的使用规则，从而使得不同节点上的容器能够获得 “同属一个内网” 且” 不重复的”IP 地址，并让属于不同节点上的容器能够直接通过内网 IP 通信。 
+每个 Pod 启动时，会自动创建一个镜像为 gcr.io/google_containers/pause:2.0.0 的容器，容器内部与外部的通信经由此容器代理，该容器的 IP 也可以称为 Pod IP。
+
+#### Cluster IP
+Pod IP 地址是实际存在于某个网卡 (可以是虚拟设备) 上的，但 Service Cluster IP 就不一样了，没有网络设备为这个地址负责。它是由 kube-proxy 使用 Iptables 规则重新定向到其本地端口，再均衡到后端 Pod 的。
+
+当我们的 Service 被创建时，Kubernetes 给它分配一个地址 10.0.0.1。这个地址从我们启动 API 的 service-cluster-ip-range 参数 (旧版本为 portal_net 参数) 指定的地址池中分配，比如 --service-cluster-ip-range=10.0.0.0/16。假设这个 Service 的端口是 1234。集群内的所有 kube-proxy 都会注意到这个 Service。当 proxy 发现一个新的 service 后，它会在本地节点打开一个任意端口，建相应的 iptables 规则，重定向服务的 IP 和 port 到这个新建的端口，开始接受到达这个服务的连接。
+
+当一个客户端访问这个 service 时，这些 iptable 规则就开始起作用，客户端的流量被重定向到 kube-proxy 为这个 service 打开的端口上，kube-proxy 随机选择一个后端 pod 来服务客户。这个流程如下图所示：
+
+![Cluster IP](http://img.ptcms.csdn.net/article/201506/11/5579419f29d51_middle.jpg?_=8485)
+
+根据 Kubernetes 的网络模型，使用 Service Cluster IP 和 Port 访问 Service 的客户端可以坐落在任意代理节点上。外部要访问 Service，我们就需要给 Service 外部访问 IP。
+
+#### 外部 IP
+
+Service 对象在 Cluster IP range 池中分配到的 IP 只能在内部访问，如果服务作为一个应用程序内部的层次，还是很合适的。如果这个 Service 作为前端服务，准备为集群外的客户提供业务，我们就需要给这个服务提供公共 IP 了。
+
+外部访问者是访问集群代理节点的访问者。为这些访问者提供服务，我们可以在定义 Service 时指定其 spec.publicIPs，一般情况下 publicIP 是代理节点的物理 IP 地址。和先前的 Cluster IP range 上分配到的虚拟的 IP 一样，kube-proxy 同样会为这些 publicIP 提供 Iptables 重定向规则，把流量转发到后端的 Pod 上。有了 publicIP，我们就可以使用 load balancer 等常用的互联网技术来组织外部对服务的访问了。
+
+spec.publicIPs 在新的版本中标记为过时了，代替它的是 spec.type=NodePort，这个类型的 service，系统会给它在集群的各个代理节点上分配一个节点级别的端口，能访问到代理节点的客户端都能访问这个端口，从而访问到服务。
+
 ## 模型和动机
 
 Kubernetes 从默认的 Docker 网络模型中脱离出来（Docker 1.8 的网络插件已经很接近）。在一个共享网络命名空间的平面内，目标是一个 pod 一个 IP，每个 pod 都可以和其它物理机或者容器实现跨网络通信。每个 pod 一个 IP 创建了一个简洁的，后向兼容的模型，在这个模型里，包括端口分配，组网，命名，服务发现，负载均衡，应用配置和迁移，pod 都可以被当作虚拟机或者物理主机。
@@ -55,9 +82,20 @@ Kubernetes 从默认的 Docker 网络模型中脱离出来（Docker 1.8 的网�
 
 ## 容器到容器
 
-所有容器在一个 pod 中表现为它们在同一个主机上并且不受网络限制。它们可以通过端口在本地实现互相通信。这提供了简单（已知静态端口），安全（端口绑定在 localhost，可以被 pod 中其他容器发现但不会被外部看到），还有性能提升。这同样减少了物理机或虚拟机上非容器化应用的迁移。人们运行应用都堆砌到统一个主机上，它已经解决了如何让端口不冲突和已经安排了如何让客户端去找到它。
+所有容器在一个 pod 中表现为它们在同一个主机上并且不受网络限制。每个 Pod 都有一个全局唯一的 IP,  而且假定所有的 Pod 都在一个可以直接连通的，扁平的网络空间中，Pod 之间可以跨主机通信，按照这种网络原则抽象出来的一个 Pod 对应一个 IP 的设计模型也被称作 IP-per-Pod 模型。
+
+它们可以通过端口在本地实现互相通信。这提供了简单（已知静态端口），安全（端口绑定在 localhost，可以被 pod 中其他容器发现但不会被外部看到），还有性能提升。这同样减少了物理机或虚拟机上非容器化应用的迁移。人们运行应用都堆砌到统一个主机上，它已经解决了如何让端口不冲突和已经安排了如何让客户端去找到它。
 
 这个方法确实减少了一个 pod 中容器的隔离性（端口可能冲突），并且可以没有容器私有化端口，但这些看起来都是未来才会面对的相对比较小的问题。另外，本地化 pod 是容器在 pod 中共享同样的资源（如 volumes，cpu，内存等），所以希望并且可以容忍隔离性的减少。通常情况，用户可以控制哪些容器属于同一个 pod，而不能控制哪些 pod 一起运行在一个主机上。
+
+在 yaml 文件中你可以发现我们设置的 replicas 的数量是 1，但是却发现了两个容器在运行，第二个 image 名为 gcr.io/google_containers/pause:2.0，那么第二个容器从何而来？
+
+执行下图中的命令可以发现：
+
+![container pause](http://upload-images.jianshu.io/upload_images/2231313-a8e217498e2dedd6?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+第二个容器和第一个容器共享网络命名空间。第一个容器是 Netowrk Container，它不做任何事情，只是用来接管 Pod 的网络。这样做的好处在于避免容器间的相互依赖，使用一个简单的容器来统一管理网络。
+
 
 ## Pod 到 Pod
 
