@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Docker 的桥接网络是怎么工作的
+title: Docker 的桥接网络是怎么工作的 及 Docker0 的 “双重身份”
 category: 网络
-tags: Docker 桥接网络
+tags: docker0 桥接网络
 keywords: Docker
 description:
 ---
@@ -64,3 +64,23 @@ ip link
 arp -n
 ```
 我们就能看到Address和HWaddress，它们分别对应着 IP 地址和 mac 地址，这样就匹配起来了。到容器里ifconfig一下，看看172.17.0.2的 mac 地址，是不是和主机arp -n运行结果中172.17.0.2那行的 mac 地址一样呢？
+
+## Docker0 的 “双重身份”
+
+如何理解 Docker0。下图中我们给出了 Docker0 的双重身份，并对比物理交换机，我们来理解一下 Docker0 这个软网桥。
+
+![docker0](http://tonybai.com/wp-content/uploads/docker-single-host-networking-docker0.jpg)
+
+1. 从容器视角，网桥（交换机）身份
+
+docker0 对于通过 veth pair “插在” 网桥上的 container1 和 container2 来说，首先就是（第一个身份）一个二层的交换机的角色：泛洪、维护 cam 表，在二层转发数据包；同时由于 docker0 自身也具有 mac 地址（这个与纯二层交换机不同），并且绑定了 ip(这里是 172.17.0.1)，因此在 container 中还作为 container default 路由的默认 Gateway 而存在。
+
+2. 从宿主机视角，网卡身份
+
+物理交换机提供了由硬件实现的高效的背板通道，供连接在交换机上的主机高效实现二层通信；对于开启了三层协议的物理交换机而言，其 ip 路由的处理 也是由物理交换机管理程序提供的。
+
+对于 docker0 而言，其负责处理二层交换机逻辑以及三层的处理程序其实就是宿主机上的 Linux 内核 tcp/ip 协议栈程序。
+
+而从宿主机来看，所有 docker0 从 veth（只是个二层的存在，没有绑定 ipv4 地址）接收到的数据包都会被宿主机看成从 docker0 这块网卡（第二个身份，绑定 172.17.0.1) 接收进来的数据包，尤其是在进入三层时，宿主机上的 iptables 就会 对 docker0 进来的数据包按照 rules 进行相应处理（通过一些内核网络设置也可以忽略 docker0 brigde 数据的处理）。
+
+在后续的 Docker 容器网络通信流程分析中，docker0 将在这两种身份间来回切换。
