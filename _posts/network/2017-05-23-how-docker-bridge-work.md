@@ -7,6 +7,8 @@ keywords: Docker
 description:
 ---
 
+Read First: [探索 Docker bridge 的正确姿势，亲测有效！](http://blog.daocloud.io/docker-bridge/)
+
 # Docker 的桥接网络是怎么工作的
 
 我们都知道 docker 支持多种网络，默认网络 bridge 是通过一个网桥进行容器间通信的。
