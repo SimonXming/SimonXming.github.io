@@ -23,8 +23,9 @@ description:
 
 ### Docker网络实现
 
-单机网络模式：Bridge 、Host、Container、None，这里具体就不赘述了
-多机网络模式：一类是 Docker 在 1.9 版本中引入Libnetwork项目，对跨节点网络的原生支持；一类是通过插件（plugin）方式引入的第三方实现方案，比如 Flannel，Calico 等等
+* 单机网络模式：Bridge 、Host、Container、None，这里具体就不赘述了
+
+* 多机网络模式：一类是 Docker 在 1.9 版本中引入Libnetwork项目，对跨节点网络的原生支持；一类是通过插件（plugin）方式引入的第三方实现方案，比如 Flannel，Calico 等等
 
 ## Kubernetes 网络模型
 
