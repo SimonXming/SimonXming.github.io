@@ -7,6 +7,20 @@ keywords: 编码风格
 description:
 ---
 
+[官方 CodeReviewComments](https://github.com/golang/go/wiki/CodeReviewComments)
+
+### Method Receiver 类型
+
+在 method 中选择使用 value 或 pointer receiver 有时比较困难，特别是对新人。如果不确定选哪个，用 pointer 是一个比较好的选择，但是也有许多情况下 value receiver 是更好的选择，通常是出于效率的考量，像是小型不变的 struct 或基础类型。以下是一些指导：
+
+* 如果 receiver 是一个 map, func 或 chan，不要使用 pointer。如果 receiver 是一个 slice 并且 method 不会重新切片(reslice)或者重新分配切片(reallocate)，不要使用 pointer。
+* 如果 method 需要修改 receiver, receiver 必须是 pointer。
+* 如果 receiver 是一个包含 sync.Mutex 或类似的同步字段的 struct，receiver 必须是 pointer 以免防止复制。
+* 如果 receiver 是一个大 struct 或 array，使用 pointer receiver 会更有效率。那么多大算是大 struct 呢？假设 receiver 中的元素都被当成参数传递给 method，并且感觉有些太大太多，那么这个 receiver 也算是太大太多.
+* 有没有 function 或者 methods，同步或异步被这个 method 调用时，可以修改这个 method 的 receiver ？当调用方法时，一个 value 会创建一个副本，因此 method 外部的更新不会作用于这个 receiver。如果修改必须对原始 receiver 是可见的，那么这个 receiver 必须是一个 pointer。
+* 如果 receiver 是一个 struct，array 或者 slice，并且 receiver 中的元素中有包含指向可变对象的 pointer，那么更应该使用 pointer receiver。因为这样会使 intention 对 reader 更透明。
+* 如果一个 receiver 是一个小型 array 或者 struct that is naturally a value type (for instance, something like the time.Time type), 包不可变的字段并且没有 pointers，或者只是一个简单类型像是 int 或者 string, 这是使用 value receiver 比较合适. 一个 value receiver 可以降低很多生成对象时产生的垃圾; 如果一个 value 传给了一个 value method, 将会使用一个 on-stack 副本而不是分配 on the heap. (编译器会试着去避免这次内存分配,但是编译器并不总能成功.) 因此不要不分析具体情况就选择一个 value receiver.
+* 最后，当有疑问时，使用 pointer receiver.
 
 ## 编码规范
 虽然 Go 自带的 fmt 工具已经解决了大部分排版的问题，但是在命名规范上仍旧有一些要求。另外，Go 的哲学与传统的面向对象的编程语言也有不一致的地方（如 Java），需要进行理解和适应。
