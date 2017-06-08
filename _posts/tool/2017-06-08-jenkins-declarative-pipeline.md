@@ -9,7 +9,7 @@ description:
 
 # Jenkins Declarative Pipeline Example
 
-## Basic-001
+## Basic-0x01
 
 ```groovy
 pipeline {
