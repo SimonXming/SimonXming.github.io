@@ -34,4 +34,13 @@ AVX|Advanced Vector Extensions，即高级向量扩展指令集
 AVX2|Advanced Vector Extensions 2
 FMA|Fused-Multiply-Add，即积和熔加运算
 
+```shell
+# 查看 cpu 信息
+sysctl -n machdep.cpu.brand_string
+> Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz
+# 查看 cpu 支持的指令集
+sysctl -n machdep.cpu.features
+> FPU VME DE PSE TSC MSR PAE MCE CX8 APIC SEP MTRR PGE MCA CMOV PAT PSE36 CLFSH DS ACPI MMX FXSR SSE SSE2 SS HTT TM PBE SSE3 PCLMULQDQ DTES64 MON DSCPL VMX SMX EST TM2 SSSE3 FMA CX16 TPR PDCM SSE4.1 SSE4.2 x2APIC MOVBE POPCNT AES PCID XSAVE OSXSAVE SEGLIM64 TSCTMR AVX1.0 RDRAND F16C
+```
+
 拓展阅读: [How CPU Work](http://www.hardwaresecrets.com/how-a-cpu-works/)
