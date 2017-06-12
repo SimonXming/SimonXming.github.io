@@ -27,9 +27,9 @@ AUFS（AnotherUnionFS）是一种 Union FS，是文件级的存储驱动。AUFS 
 
 ### Overlay
 
-Overlay 是 Linux 内核 3.18 后支持的，也是一种 Union FS，和 AUFS 的多层不同的是 Overlay 只有两层：一个 upper 文件系统和一个 lower 文件系统，分别代表 Docker 的镜像层和容器层。当需要修改一个文件时，使用 CoW 将文件从只读的 lower 复制到可写的 upper 进行修改，结果也保存在 upper 层。在 Docker 中，底下的只读层就是 image，可写层就是 Container。结构如下图所示：
+Overlay 是 Linux 内核 3.18 后支持的，也是一种 Union FS，和 AUFS 的多层不同的是 Overlay 只有两层：一个 upper 文件系统和一个 lower 文件系统，分别代表 Docker 的容器层和镜像层。当需要修改一个文件时，使用 CoW 将文件从只读的 lower 复制到可写的 upper 进行修改，结果也保存在 upper 层。在 Docker 中，底下的只读层就是 image，可写层就是 Container。结构如下图所示：
 
-![Overlay](http://dockerone.com/uploads/article/20160707/4b4e87b68f711154747e3141289ec935.png)
+![Overlay](http://dockerone.com/uploads/article/20160707/2a60e3e8527b2f4c64ae74ff0641cc5c.png)
 
 ### Device mapper
 
