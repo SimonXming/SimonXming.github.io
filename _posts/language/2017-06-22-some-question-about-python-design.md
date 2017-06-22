@@ -182,3 +182,8 @@ Output:
 ('__getattr__', ('attr_3',), {})
 not found
 ```
+
+
+Refs:
+* [How Does Attribute Access Work?](https://medium.com/stepping-through-the-cpython-interpreter/how-does-attribute-access-work-d19371898fee)
+* [Python: Difference between class and instance attributes](https://stackoverflow.com/questions/207000/python-difference-between-class-and-instance-attributes/44694103#44694103)
