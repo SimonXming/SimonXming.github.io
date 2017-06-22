@@ -113,4 +113,4 @@ class 和实例访问属性都是通过属性操作符 (class or metaclass's `__
 
 默认情况下，`vars(cls)` 对于一个空类型，返回的对象包含三个描述器，`__dict__` 用于保存实例中的属性，`__weakref__` 是用于 weakref 模块的内部逻辑，`__doc__` 是用于 class 的 docstring。前两个描述器可能会因为定义了 `__slots__` 而消失，没有 `__dict__` and `__weakref__` 属性，反而会有每一个定义在 `__slots__` 的属性。此时，实例的属性不会保存在 dict 中，访问属性将会通过相应的描述器实现。
 
-
+refs: [What is the __dict__.__dict__ attribute of a Python class?](https://stackoverflow.com/questions/4877290/what-is-the-dict-dict-attribute-of-a-python-class/4877655#4877655)
