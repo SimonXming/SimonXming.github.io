@@ -114,3 +114,71 @@ class 和实例访问属性都是通过属性操作符 (class or metaclass's `__
 默认情况下，`vars(cls)` 对于一个空类型，返回的对象包含三个描述器，`__dict__` 用于保存实例中的属性，`__weakref__` 是用于 weakref 模块的内部逻辑，`__doc__` 是用于 class 的 docstring。前两个描述器可能会因为定义了 `__slots__` 而消失，没有 `__dict__` and `__weakref__` 属性，反而会有每一个定义在 `__slots__` 的属性。此时，实例的属性不会保存在 dict 中，访问属性将会通过相应的描述器实现。
 
 refs: [What is the __dict__.__dict__ attribute of a Python class?](https://stackoverflow.com/questions/4877290/what-is-the-dict-dict-attribute-of-a-python-class/4877655#4877655)
+
+### Q-4: what's the order of access instance's attribute ?
+
+```
+# -*- encoding: utf -*-
+
+
+class RevealAccess(object):
+    """A data descriptor that sets and returns values
+       normally and prints a message logging their access.
+    """
+    def __init__(self, initval=None, name='var'):
+        self.val = initval
+        self.name = name
+
+    def __get__(self, obj, objtype):
+        print('Retrieving', self.name, self.val)
+        return self.val
+
+    def __set__(self, obj, val):
+        print('Updating', self.name, self.val)
+        self.val = val
+
+
+class Base(object):
+    attr_1 = RevealAccess(10, 'var "x"')
+
+    def __init__(self):
+        self.attr_2 = RevealAccess(10, 'var "x"')
+
+    def __getattribute__(self, *args, **kwargs):
+        print("__getattribute__", args, kwargs)
+        return super(Base, self).__getattribute__(*args, **kwargs)
+
+    def __getattr__(self, *args, **kwargs):
+        print("__getattr__", args, kwargs)
+        try:
+            origin = super(Base, self).__getattr__(*args, **kwargs)
+            return origin
+        except AttributeError as e:
+            return "not found"
+
+
+def main():
+    b = Base()
+    print("*********** start get b.attr_1 ***********")
+    print(b.attr_1)
+    print("*********** start get b.attr_2 ***********")
+    print(b.attr_2)
+    print("*********** start get b.attr_3 ***********")
+    print(b.attr_3)
+
+if __name__ == '__main__':
+    main()
+
+Output:
+*********** start get b.attr_1 ***********
+('__getattribute__', ('attr_1',), {})
+('Retrieving', 'var "x"', 10)
+10
+*********** start get b.attr_2 ***********
+('__getattribute__', ('attr_2',), {})
+<__main__.RevealAccess object at 0x100b1abd0>
+*********** start get b.attr_3 ***********
+('__getattribute__', ('attr_3',), {})
+('__getattr__', ('attr_3',), {})
+not found
+```
