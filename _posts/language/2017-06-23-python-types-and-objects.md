@@ -41,6 +41,7 @@ object 和 type的关系很像鸡和蛋的关系，先有object还是先有type�
 
 它们两个的关系可以这样描述：
 * object是一个type，object is and instance of type。即Object是type的一个实例。
+
 ```python
 >>> object.__class__
 <type 'type'>
@@ -50,6 +51,7 @@ object 和 type的关系很像鸡和蛋的关系，先有object还是先有type�
 ```
 
 * type是一种object， type is kind of object。即Type是object的子类。
+
 ```python
 >>> type.__bases__
 (<type 'object'>,)
@@ -57,11 +59,13 @@ object 和 type的关系很像鸡和蛋的关系，先有object还是先有type�
 # type的类型是自己
 <type 'type'>
 ```
+
 此时，白板上对象的关系如下图：
 
 ![图一](https://pic4.zhimg.com/d7d23c4f1eded696c72c28cdc3ce9c17_b.png)
 
 我们再引入list, dict, tuple 这些内置数据类型来看看：
+
 ```python
 >>> list.__bases__
 (<type 'object'>,)
@@ -99,6 +103,7 @@ Traceback (most recent call last):
 
 除了type和object两者外。当我们自己去定个一个类及实例化它的时候，和上面的对象们又是什么关系呢？
 试一下：
+
 ```python
 >>> class C(object):
 ... pass
@@ -116,6 +121,7 @@ Traceback (most recent call last):
     File "<stdin>", line 1, in <module>
     AttributeError: 'C' object has no attribute '__bases__'
 ```
+
 这个实例化的C类对象也是没有父类的属性的。再更新一下白板：
 
 ![图三](https://pic2.zhimg.com/ca54cfa2cc510d2dcc40e3cc7fb2e051_b.png)
