@@ -4,6 +4,10 @@ layout: post
 
 <hr>
 
+### New Lead:
+
+> Save my energy, Block everything which i thought disturbing me, thing that i'm decide in sober.
+
 ### Big Question:
 
 > You know several things very important VS. You think you know many things pretty important
@@ -13,8 +17,6 @@ layout: post
 <p align="right"><small> Update at (2017-03-23)</small></p>
 
 <hr>
-
-### New Lead:
 
 > You got to understand what you are doing .
 
