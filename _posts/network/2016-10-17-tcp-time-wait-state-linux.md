@@ -42,6 +42,8 @@ Linux kernel 文档中关于 `net.ipv4.tcp_tw_recycle` 的描述并不能清楚�
 
 我们先后退一小步，然后仔细看一下 TIME-WAIT state, 它是什么？查看下面这个 TCP state 图像。
 
+![tcp-state-steps](http://img.blog.csdn.net/20141015155713390)
+
 ![tcp-state-diagram](http://7xnqwp.com1.z0.glb.clouddn.com/tcp-state.jpg)
 
 只有主动(首先)关闭连接的一方才会到达 TIME-WAIT state. 接收关闭请求的一方通常会许可(permits)快速清除掉链接。

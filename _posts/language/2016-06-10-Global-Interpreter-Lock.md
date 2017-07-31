@@ -9,6 +9,7 @@ description:
 > 前言：博主在刚接触Python的时候时常听到GIL这个词，并且发现这个词经常和Python无法高效的实现多线程划上等号。本着不光要知其然，还要知其所以然的研究态度，博主搜集了各方面的资料，花了一周内几个小时的闲暇时间深入理解了下GIL，并归纳成此文，也希望读者能通过次本文更好且客观的理解GIL。
 > 
 > 文章欢迎转载，但转载时请保留本段文字，并置于文章的顶部 作者：卢钧轶(cenalulu) 本文原文地址：http://cenalulu.github.io/python/gil-in-python/
+
 ## GIL是什么
 
 首先需要明确的一点是GIL并不是Python的特性，它是在实现Python解析器(CPython)时所引入的一个概念。就好比C++是一套语言（语法）标准，但是可以用不同的编译器来编译成可执行代码。有名的编译器例如GCC，INTEL C++，Visual C++等。Python也一样，同样一段代码可以通过CPython，PyPy，Psyco等不同的Python执行环境来执行。像其中的JPython就没有GIL。然而因为CPython是大部分环境下默认的Python执行环境。所以在很多人的概念里CPython就是Python，也就想当然的把GIL归结为Python语言的缺陷。所以这里要先明确一点：GIL并不是Python的特性，Python完全可以不依赖于GIL
