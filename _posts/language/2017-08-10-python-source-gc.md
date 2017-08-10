@@ -91,6 +91,7 @@ PyAPI_FUNC(void) _Py_Dealloc(PyObject *);
 会调用各自类型的 `tp_dealloc`:
 
 1. dict
+
 ```c
 PyTypeObject PyDict_Type = {
     PyVarObject_HEAD_INIT(&PyType_Type, 0)
@@ -100,7 +101,6 @@ PyTypeObject PyDict_Type = {
     (destructor)dict_dealloc,                   /* tp_dealloc */
     ....
 }
-
 
 static void
 dict_dealloc(register PyDictObject *mp)
