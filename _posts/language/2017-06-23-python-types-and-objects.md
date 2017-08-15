@@ -62,7 +62,7 @@ object 和 type的关系很像鸡和蛋的关系，先有object还是先有type�
 
 此时，白板上对象的关系如下图：
 
-![图一](https://pic4.zhimg.com/d7d23c4f1eded696c72c28cdc3ce9c17_b.png)
+![图一](/assets/img/post/20170623/type-object-图1.png)
 
 我们再引入list, dict, tuple 这些内置数据类型来看看：
 
@@ -96,7 +96,8 @@ Traceback (most recent call last):
 实例化的list的类型是`<type 'list'>`, 而没有了父类。
 把它们加到白板上去：
 
-![图二](https://pic1.zhimg.com/dcfa446418490a973b8dd47e83c181a8_b.png)
+![图二](/assets/img/post/20170623/type-object-图2.png)
+
 
 白板上的虚线表示源是目标的实例，实线表示源是目标的子类。
 即，左边的是右边的类型，而上面的是下面的父亲。虚线是跨列产生关系，而实线只能在一列内产生关系。
@@ -124,7 +125,7 @@ Traceback (most recent call last):
 
 这个实例化的C类对象也是没有父类的属性的。再更新一下白板：
 
-![图三](https://pic2.zhimg.com/ca54cfa2cc510d2dcc40e3cc7fb2e051_b.png)
+![图三](/assets/img/post/20170623/type-object-图3.png)
 
 * 白板上的第一列，目前只有type，我们先把这列的东西叫Type。
 * 白板上的第二列，它们既是第三列的类型，又是第一列的实例，我们把这列的对象叫TypeObject
