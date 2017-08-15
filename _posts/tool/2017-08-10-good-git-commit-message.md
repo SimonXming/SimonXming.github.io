@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 如何写好 Git commit messages
-category: git
+category: 工具
 tags: git commit
 keywords: git
 description:

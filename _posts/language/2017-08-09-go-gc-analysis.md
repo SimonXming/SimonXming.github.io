@@ -128,9 +128,9 @@ func GC() {
 }
 ```
 
-###GC 触发条件
+### GC 触发条件
 
-触发条件主要关注下面代码中的中间部分：forceTrigger || memstats.heap_live >= memstats.gc_trigger 。forceTrigger 是 forceGC 的标志；后面半句的意思是当前堆上的活跃对象大于我们初始化时候设置的 GC 触发阈值。在 malloc 以及 free 的时候 heap_live 会一直进行更新，这里就不再展开了。
+触发条件主要关注下面代码中的中间部分：`forceTrigger || memstats.heap_live >= memstats.gc_trigger` 。`forceTrigger` 是 forceGC 的标志；后面半句的意思是当前堆上的活跃对象大于我们初始化时候设置的 GC 触发阈值。在 malloc 以及 free 的时候 heap_live 会一直进行更新，这里就不再展开了。
 
 ```golang
 // gcShouldStart returns true if the exit condition for the _GCoff
