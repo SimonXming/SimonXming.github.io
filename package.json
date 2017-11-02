@@ -1,0 +1,26 @@
+{
+  "name": "simonxming.github.io",
+  "version": "1.0.0",
+  "description": "Simon's Blog",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimonXming/SimonXming.github.io.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "simonshy2@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SimonXming/SimonXming.github.io/issues"
+  },
+  "homepage": "https://github.com/SimonXming/SimonXming.github.io#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
