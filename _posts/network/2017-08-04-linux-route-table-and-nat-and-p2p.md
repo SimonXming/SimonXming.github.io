@@ -22,11 +22,11 @@ route # 或 route -n
 # MacOS
 netstat -nr
 
-# route 
-Destination     Gateway         Genmask         Flags Metric Ref     Use Iface  
-192.168.0.0     *               255.255.255.0    U     0      0        0  eth0  
-169.254.0.0     *               255.255.0.0      U     0      0        0  eth0  
-default         192.168.0.1     0.0.0.0          UG    0      0        0  eth0 
+# route
+Destination     Gateway         Genmask         Flags Metric Ref     Use Iface
+192.168.0.0     *               255.255.255.0    U     0      0        0  eth0
+169.254.0.0     *               255.255.0.0      U     0      0        0  eth0
+default         192.168.0.1     0.0.0.0          UG    0      0        0  eth0
 ```
 
 route 命令的输出项说明：
@@ -141,8 +141,8 @@ default       192.168.1.1     0.0.0.0    UG       0         0      0    eth0
 
 Iptables 是 Linux 内核模块 netfilter 的应用程序，通过 iptables 这个应用程序来控制 netfilter 内核的行为。Linux的iptables默认是4表5链，当然也可以自定义自己的规则链。
 
-* 4表： nat， manage， raw， filter， 
-* 5链： prerouting， input， output， forward, postrouting 
+* 4表： nat， manage， raw， filter，
+* 5链： prerouting， input， output， forward, postrouting
 
 一般情况下我们只需要关心nat和filter这个两个表。Nat表可以控制非本地的网络包，filter可以控制路由到本地的数据包。
 
@@ -151,8 +151,16 @@ Iptables 是 Linux 内核模块 netfilter 的应用程序，通过 iptables 这�
 
 ### iptables 传输数据包的过程
 
-1. 当一个数据包进入网卡时，它首先进入 PREROUTING 链，内核根据数据包目的 IP 判断是否需要转送出去。 
-2. 如果数据包就是进入本机的，它就会沿着图向下移动，到达 INPUT 链。数据包到了 INPUT 链后，任何进程都会收到它。本机上运行的程序可以发送数据包，这些数据包会经过 OUTPUT 链，然后到达 POSTROUTING 链输出。 
+[packet-filtering-HOWTO](http://www.netfilter.org/documentation/HOWTO//packet-filtering-HOWTO-6.html)
+
+> 原文：
+> 1. When a packet comes in (say, through the Ethernet card) the kernel first looks at the destination of the packet: this is called `routing'.
+> 2. If it's destined for this box, the packet passes downwards in the diagram, to the INPUT chain. __If it passes this, any processes waiting for that packet will receive it.__
+> 3. Otherwise, if the kernel does not have forwarding enabled, or it doesn't know how to forward the packet, the packet is dropped. If forwarding is enabled, and the packet is destined for another network interface (if you have another one), then the packet goes rightwards on our diagram to the FORWARD chain. If it is ACCEPTed, it will be sent out.
+> 4. Finally, a program running on the box can send network packets. These packets pass through the OUTPUT chain immediately: if it says ACCEPT, then the packet continues out to whatever interface it is destined for.
+
+1. 当一个数据包进入网卡时，它首先进入 PREROUTING 链，内核根据数据包目的 IP 判断是否需要转送出去。
+2. 如果数据包就是进入本机的，它就会沿着图向下移动，到达 INPUT 链。数据包到了 INPUT 链后，任何进程都会收到它。本机上运行的程序可以发送数据包，这些数据包会经过 OUTPUT 链，然后到达 POSTROUTING 链输出。
 3. 如果数据包是要转发出去的，且内核允许转发，数据包就会如图所示向右移动，经过 FORWARD 链，然后到达 POSTROUTING 链输出。
 
 ### iptables 的规则表和链：
