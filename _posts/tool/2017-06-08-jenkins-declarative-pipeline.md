@@ -59,6 +59,62 @@ pipeline {
 }
 ```
 
+## Scripted Pipeline-0x02
+```groovy
+node('nfs-docker') {
+    stage('clean workspace') {
+        cleanWs()
+        echo 'clean workspace success !'
+    }
+    stage('install git') {
+        sh '''
+        if hash git 2>/dev/null; then
+            echo "Git already installed!"
+            exit 0
+        fi
+        apt-get update
+        apt-get install -y build-essential
+        apt-get install -y git
+        '''
+    }
+    stage('checkout scm') {
+        def branches = "*/" + params.BRANCH
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: branches]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [[
+              $class: 'SubmoduleOption',
+              disableSubmodules: false,
+              parentCredentials: true,
+              recursiveSubmodules: true,
+              reference: '',
+              trackingSubmodules: false
+            ]],
+            submoduleCfg: [],
+            userRemoteConfigs: [
+                [credentialsId: 'ssh-auth', url: 'git@gitlab.example.com:devtools/namespace/repo.git']
+            ]])
+    }
+    stage('install docker') {
+        sh '''
+        if hash docker 2>/dev/null; then
+            echo "Docker already installed!"
+            exit 0
+        fi
+
+        curl -fsSL get.docker.com -o get-docker.sh
+        apt-get -y -f install
+        sh get-docker.sh
+        '''
+    }
+    stage('build docker') {
+        def customImage = docker.build("some-image:latest")
+    }
+
+}
+```
+
 参考阅读：
 * [Jenkins pipeline syntax](https://jenkins.io/doc/book/pipeline/syntax/)  官方文档
 * [Jenkins pipeline steps](https://jenkins.io/doc/pipeline/steps/) 官方文档
