@@ -9,16 +9,35 @@ description:
 
 ## 堆和非堆内存
 
-按照官方的说法：“Java 虚拟机具有一个堆 (Heap)，堆是运行时数据区域，所有类实例和数组的内存均从此处分配。堆是在 Java 虚拟机启动时创建的。”“在 JVM 中堆之外的内存称为非堆内存 (Non-heap memory)”。
+按照官方的说法："Java 虚拟机具有一个堆 (Heap)，堆是运行时数据区域，所有类实例和数组的内存均从此处分配。堆是在 Java 虚拟机启动时创建的。在 JVM 中堆之外的内存称为非堆内存 (Non-heap memory)"。
 
 JVM 主要管理两种类型的内存：堆和非堆。
+- (代码缓存区)； 
+- Perm Gen（永久代）； 
+- Jvm Stack(java 虚拟机栈)； 
+- Local Method Statck(本地方法栈)；
+Heap memory           |non-heap memory
+----------------------|---------------
+                      |Code Cache
+Eden Space            |Perm Gen
+Survivor Space        |Jvm Stack
+Old Gen(Tenured Gen)  |Local Method Statck
 
-Heap memory|non-heap memory
------------|---------------
-Code Cache|Perm Gen
-Eden Space|native heap?(I guess)
-Survivor Space|
-Tenured Gen|
+Heap memory 组成|详解
+----------------------|---------------
+Young Gen|即 Eden + From Space + To Space
+Eden Space|存放新生的对象
+Survivor Space|有两个，存放每次垃圾回收后存活的对象
+Old Gen(Tenured Gen)| 即 Old Space 主要存放应用程序中生命周期长的存活对象
+
+non-Heap memory 组成|详解
+----------------------|---------------
+Code Cache            |代码缓存区，它主要用于存放 JIT 所编译的代码。
+Permanent Gen         |保存虚拟机自己的静态 (refective) 数据 主要存放加载的 Class 类级别静态对象如 class 本身，method，field 等等 permanent generation 空间不足会引发 full GC(详见 HotSpot VM GC 种类)
+Jvm Stack             |虚拟机栈描述的是 Java 方法执行的内存模型：每个方法被执行的时候都会同时创建一个栈帧，栈它是用于支持续虚拟机进行方法调用和方法执行的数据结构
+Local Method Statck   |该区域与虚拟机栈所发挥的作用非常相似，只是虚拟机栈为虚拟机执行 Java 方法服务，而本地方法栈则为使用到的本地操作系统（Native）方法服务
+
+
 
 ### 堆内存
 
