@@ -12,10 +12,9 @@ description:
 按照官方的说法："Java 虚拟机具有一个堆 (Heap)，堆是运行时数据区域，所有类实例和数组的内存均从此处分配。堆是在 Java 虚拟机启动时创建的。在 JVM 中堆之外的内存称为非堆内存 (Non-heap memory)"。
 
 JVM 主要管理两种类型的内存：堆和非堆。
-- (代码缓存区)； 
-- Perm Gen（永久代）； 
-- Jvm Stack(java 虚拟机栈)； 
-- Local Method Statck(本地方法栈)；
+
+![jvm memory management](https://i.stack.imgur.com/1ai0j.png)
+
 Heap memory           |non-heap memory
 ----------------------|---------------
                       |Code Cache

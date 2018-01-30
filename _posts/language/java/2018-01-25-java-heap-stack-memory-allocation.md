@@ -14,6 +14,8 @@ description:
 * 堆 (Heap)
 * 方法区 (Method Area/PermGen space)
 
+![jvm memory management](https://i.stack.imgur.com/1ai0j.png)
+
 ### 程序计数器 (Program Counter Register)
 
 一块较小的内存空间，它是当前线程所执行的字节码的行号指示器，字节码解释器工作时通过改变该计数器的值来选择下一条需要执行的字节码指令，分支、跳转、循环等基础功能都要依赖它来实现。每条线程都有一个独立的的程序计数器，各线程间的计数器互不影响，因此该区域是线程私有的。
