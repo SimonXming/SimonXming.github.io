@@ -1,11 +1,13 @@
 ---
 layout: post
-title: 深度学习导论 (with scikit-learn)
+title: (翻译)An introduction to machine learning with scikit-learn
 category: 系列
 tags: 深度学习
 keywords: 深度学习
 description:
 ---
+
+[原文](http://scikit-learn.org/stable/tutorial/basic/tutorial.html)
 
 # An introduction to machine learning with scikit-learn
 

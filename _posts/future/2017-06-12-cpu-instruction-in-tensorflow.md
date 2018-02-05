@@ -1,9 +1,9 @@
 ---
 layout: post
-title: tensorflow 入门
-category: 系列
-tags: 深度学习 tensorflow
-keywords: 深度学习
+title: CPU 指令与 tensorflow
+category: 未来
+tags: cpu instruction
+keywords: cpu
 description:
 ---
 
