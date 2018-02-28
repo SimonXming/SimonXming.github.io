@@ -8,8 +8,6 @@ description:
 ---
 
 
-## The Declaration of Independence
-
 IN CONGRESS, JULY 4,
 1776 THE UNANIMOUS
 DECLARATION OF THE
