@@ -2,6 +2,14 @@
 layout: post
 ---
 
+> It is clear that we are just an advanced breed of primates on a minor planet orbiting around a very average star, in the outer suburb of one among a hundred billion galaxies. BUT, ever since the dawn of civilization people have craved for an understanding of the underlying order of the world. There ought to be something very special about the boundary conditions of the universe. And what can be more special than that there is no boundary? And there should be no boundary to human endeavor. We are all different. However bad life may seem, there is always something you can do, and succeed at. While there is life, there is hope.
+>
+> — Stephen William Hawking (1942-01-08~2018-03-14)
+
+<p align="right"><small> Update at (2018-03-14)</small></p>
+
+<hr/>
+
 ![falcon-heavy-launched](/assets/img/index/falcon-heavy-launched.jpg)
 
 <p align="right"><small> Update at (2018-02-07)</small></p>
