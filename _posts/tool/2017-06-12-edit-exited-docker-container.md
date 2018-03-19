@@ -127,7 +127,7 @@ Random Write：
 ### 方法一
 
 ```shell
-docker inspect --format \'{{.GraphDriver.Data.DeviceName}}\' <CONTAINER_NAME>
+docker inspect --format '\{\{.GraphDriver.Data.DeviceName\}\}' <CONTAINER_NAME>
 # 输出
 docker-253:0-204988604-cfa868ae50ecc4d5a7ffe56833ca8ebf0258a8462a33872f3b3a95b7aaf18b35
 ```
@@ -135,7 +135,7 @@ docker-253:0-204988604-cfa868ae50ecc4d5a7ffe56833ca8ebf0258a8462a33872f3b3a95b7a
 ### 方法二
 
 ```shell
-cat $DOCKER_ROOT_PATH/image/aufs/layerdb/mounts/\$(docker inspect --format {{.Id}} <CONTAINER_NAME>)/mount-id
+cat $DOCKER_ROOT_PATH/image/aufs/layerdb/mounts/\$(docker inspect --format \{\{.Id\}\} <CONTAINER_NAME>)/mount-id
 ```
 
 其中 `cfa868ae50ecc4d5a7ffe56833ca8ebf0258a8462a33872f3b3a95b7aaf18b35` 为容器的 writer 的目录在 Host 上的挂载目录
@@ -147,7 +147,7 @@ cat $DOCKER_ROOT_PATH/image/aufs/layerdb/mounts/\$(docker inspect --format {{.Id
 
 ```shell
 # 获取到 aufs mount-id
-cat $DOCKER_ROOT_PATH/image/aufs/layerdb/mounts/\$(docker inspect --format {{.Id}} <CONTAINER_NAME>)/mount-id
+cat $DOCKER_ROOT_PATH/image/aufs/layerdb/mounts/\$(docker inspect --format \{\{.Id\}\} <CONTAINER_NAME>)/mount-id
 
 $DOCKER_ROOT_PATH/aufs/mnt/<MOUNT_ID>              # 容器 writer 的挂载目录
 ```
