@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Stack Based vs Register Based Virtual Machine Architecture, and the Dalvik VM
-category: language
+category: 语言
 tags: vm language-design
 keywords: vm
 description:
